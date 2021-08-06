@@ -1,0 +1,14 @@
+05 Aug 2021 - 14:23:47.976 [main] INFO  io.javalin.Javalin - 
+           __                      __ _
+          / /____ _ _   __ ____ _ / /(_)____
+     __  / // __ `/| | / // __ `// // // __ \
+    / /_/ // /_/ / | |/ // /_/ // // // / / /
+    \____/ \__,_/  |___/ \__,_//_//_//_/ /_/
+
+        https://javalin.io/documentation
+
+05 Aug 2021 - 14:23:47.985 [main] DEBUG org.eclipse.jetty.util.log - Logging to Logger[org.eclipse.jetty.util.log] via org.eclipse.jetty.util.log.Slf4jLog
+05 Aug 2021 - 14:23:48.046 [main] INFO  org.eclipse.jetty.util.log - Logging initialized @564ms to org.eclipse.jetty.util.log.Slf4jLog
+05 Aug 2021 - 14:23:48.047 [main] INFO  io.javalin.Javalin - Starting Javalin ...
+05 Aug 2021 - 14:23:48.379 [main] INFO  io.javalin.Javalin - Listening on http://localhost:7000/
+05 Aug 2021 - 14:23:48.379 [main] INFO  io.javalin.Javalin - Javalin started in 333ms \o/
