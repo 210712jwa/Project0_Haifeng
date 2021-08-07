@@ -6,6 +6,7 @@ import java.util.List;
 import dao.ClientDAO;
 import dao.ClientDAOImp;
 import dto.AddOrEditClientDTO;
+import exception.BadParameterException;
 import exception.DatabaseException;
 import model.Client;
 
@@ -30,18 +31,20 @@ public class ClientService {
 			clients = clientDao.getAllClients();
 		} catch (SQLException e) {
 			throw new DatabaseException("Something went wrong with our DAO operations");
-		}
+		} 
 		
 		return clients;
 	}
 	
-	public Client getClientById(String clientid) throws DatabaseException {
+	public Client getClientById(String clientid) throws DatabaseException, BadParameterException {
 		Client client;
 		try {
 			int id = Integer.parseInt(clientid);
 			client = clientDao.getClientByid(id);
 		} catch (SQLException e) {
 			throw new DatabaseException("Something went wrong with our DAO operations");
+		} catch(NumberFormatException e) {
+			throw new BadParameterException(clientid + "was pass in, but it is not a integer");
 		}
 		
 		return client;
@@ -53,27 +56,31 @@ public class ClientService {
 			return newClient;
 		} catch (SQLException e) {
 			throw new DatabaseException("Something went wrong with our DAO operations");
-		}
+		} 
 		
 		
 	}
 	
-	public Client editClient(String clientid, AddOrEditClientDTO client) throws DatabaseException {
+	public Client editClient(String clientid, AddOrEditClientDTO client) throws DatabaseException, BadParameterException {
 		try {
 			int id = Integer.parseInt(clientid);
 			Client editedClient = clientDao.editClientByid(id, client);
 			return editedClient;
 		} catch (SQLException e) {
 			throw new DatabaseException("Something went wrong with our DAO operations");
+		} catch(NumberFormatException e) {
+			throw new BadParameterException(clientid + "was pass in, but it is not a integer");
 		}
 	}
 	
-	public void deleteClient(String clientid) throws DatabaseException {
+	public void deleteClient(String clientid) throws DatabaseException, BadParameterException {
 		try {
 			int id = Integer.parseInt(clientid);
 			clientDao.deleteClientByid(id);
 		} catch (SQLException e) {
 			throw new DatabaseException("Something went wrong with our DAO operations");
+		} catch(NumberFormatException e) {
+			throw new BadParameterException(clientid + "was pass in, but it is not a integer");
 		}
 	}
 }

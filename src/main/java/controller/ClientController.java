@@ -32,6 +32,7 @@ private ClientService clientService;
 	
 	private Handler addClientByid = (ctx) -> {
 		AddOrEditClientDTO newClient = ctx.bodyAsClass(AddOrEditClientDTO.class);
+		
 		Client client = clientService.addClient(newClient);
 		ctx.json(client);
 	};
