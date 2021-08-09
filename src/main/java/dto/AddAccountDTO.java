@@ -5,6 +5,8 @@ import java.util.Objects;
 public class AddAccountDTO {
 	double accountBalance;
 	int clientid;
+	String accountType;
+	
 	public double getAccountBalance() {
 		return accountBalance;
 	}
@@ -17,9 +19,15 @@ public class AddAccountDTO {
 	public void setClientid(int clientid) {
 		this.clientid = clientid;
 	}
+	public String getAccountType() {
+		return accountType;
+	}
+	public void setAccountType(String accountType) {
+		this.accountType = accountType;
+	}
 	@Override
 	public int hashCode() {
-		return Objects.hash(accountBalance, clientid);
+		return Objects.hash(accountBalance, accountType, clientid);
 	}
 	@Override
 	public boolean equals(Object obj) {
@@ -31,8 +39,15 @@ public class AddAccountDTO {
 			return false;
 		AddAccountDTO other = (AddAccountDTO) obj;
 		return Double.doubleToLongBits(accountBalance) == Double.doubleToLongBits(other.accountBalance)
-				&& clientid == other.clientid;
+				&& Objects.equals(accountType, other.accountType) && clientid == other.clientid;
 	}
+	@Override
+	public String toString() {
+		return "AddAccountDTO [accountBalance=" + accountBalance + ", clientid=" + clientid + ", accountType="
+				+ accountType + "]";
+	}
+
+	
 	
 
 	

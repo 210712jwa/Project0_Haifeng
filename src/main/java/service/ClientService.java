@@ -3,6 +3,8 @@ package service;
 import java.sql.SQLException;
 import java.util.List;
 
+import dao.AccountDAO;
+import dao.AccountDAOImp;
 import dao.ClientDAO;
 import dao.ClientDAOImp;
 import dto.AddOrEditClientDTO;
@@ -14,10 +16,12 @@ import model.Client;
 public class ClientService {
 
 	private ClientDAO clientDao;
+	private AccountDAO accountDao;
 	
 
 	public ClientService() {
 		this.clientDao = new ClientDAOImp();
+		this.accountDao = new AccountDAOImp();
 	}
 	
 	public ClientService(ClientDAO mockedDaoObject) {
@@ -76,6 +80,9 @@ public class ClientService {
 	public void deleteClient(String clientid) throws DatabaseException, BadParameterException {
 		try {
 			int id = Integer.parseInt(clientid);
+			if(accountDao.getAllAccount(id).size() != 0) {
+				throw new DatabaseException("Cannot delete client before delete accounts belong to the client");
+			}
 			clientDao.deleteClientByid(id);
 		} catch (SQLException e) {
 			throw new DatabaseException("Something went wrong with our DAO operations");

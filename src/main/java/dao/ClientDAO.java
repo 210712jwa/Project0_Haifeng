@@ -18,4 +18,5 @@ public interface ClientDAO{
 	
 	public abstract void deleteClientByid(int clientid) throws SQLException;
 	
+	
 }

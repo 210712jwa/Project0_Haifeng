@@ -17,20 +17,21 @@ import utility.ConnectionUtility;
 public class AccountDAOImp implements AccountDAO {
 
 	@Override
-	public Account addAccount(int clientid, double accountBalance) throws SQLException {
+	public Account addAccount(AddAccountDTO account) throws SQLException {
 		try (Connection con = ConnectionUtility.getConnection()) {
-			String sql = "INSERT INTO project0.account (account_balance, client_id) VALUES (?, ?)";
+			String sql = "INSERT INTO project0.account (account_balance, account_type, client_id) VALUES (?, ?, ?)";
 
 			PreparedStatement pstmt = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-			pstmt.setDouble(1, accountBalance);
-			pstmt.setInt(2, clientid);
+			pstmt.setDouble(1, account.getAccountBalance());
+			pstmt.setString(2, account.getAccountType().toUpperCase());
+			pstmt.setInt(3, account.getClientid());
 			int recordUpdate = pstmt.executeUpdate();
 			if (recordUpdate != 1) {
 				throw new SQLException();
 			}
 			ResultSet generatedKey = pstmt.getGeneratedKeys();
 			if (generatedKey.next()) {
-				Account newAccount = new Account(generatedKey.getInt(1), accountBalance, clientid);
+				Account newAccount = new Account(generatedKey.getInt(1), account.getAccountBalance(), account.getAccountType().toUpperCase(), account.getClientid());
 				return newAccount;
 			}
 
@@ -52,8 +53,9 @@ public class AccountDAOImp implements AccountDAO {
 			while (rs.next()) {
 				int id = rs.getInt("account_id");
 				double accountBalance = rs.getDouble("account_balance");
+				String accountType = rs.getString("account_type");
 				int cid = rs.getInt("client_id");
-				Account account = new Account(id, accountBalance, cid);
+				Account account = new Account(id, accountBalance, accountType, cid);
 				accounts.add(account);
 			}
 
@@ -62,9 +64,25 @@ public class AccountDAOImp implements AccountDAO {
 	}
 
 	@Override
-	public Account getAccountByBalance(int clientid, double min, double max) throws SQLException {
-		// TODO Auto-generated method stub
-		return null;
+	public List<Account> getAccountByBalance(int clientid, double min, double max) throws SQLException {
+		List<Account> accounts = new ArrayList<>();
+		try(Connection con = ConnectionUtility.getConnection()) {
+			String sql = "SELECT * FROM project0.account WHERE client_id=? AND account_balance BETWEEN ? AND ?";
+			PreparedStatement pstmt = con.prepareStatement(sql);
+			pstmt.setInt(1, clientid);
+			pstmt.setDouble(2, min);
+			pstmt.setDouble(3, max);
+			ResultSet rs = pstmt.executeQuery();
+			while (rs.next()) {
+				int id = rs.getInt("account_id");
+				double accountBalance = rs.getDouble("account_balance");
+				String accountType = rs.getString("account_type");
+				int cid = rs.getInt("client_id");
+				Account account = new Account(id, accountBalance, accountType, cid);
+				accounts.add(account);
+			}
+		}
+		return accounts;
 	}
 
 	@Override
@@ -78,8 +96,9 @@ public class AccountDAOImp implements AccountDAO {
 			if(rs.next()) {
 				int aid = rs.getInt("account_id");
 				double accountBalance = rs.getDouble("account_balance");
+				String accountType = rs.getString("account_type");
 				int cid = rs.getInt("client_id");
-				return new Account(aid, accountBalance, cid);
+				return new Account(aid, accountBalance, accountType, cid);
 			}else {
 				return null;
 			}
@@ -88,18 +107,19 @@ public class AccountDAOImp implements AccountDAO {
 	}
 
 	@Override
-	public Account editAccountByids(int clientid, int accountid, double accountBalance) throws SQLException {
+	public Account editAccountByids(Account account) throws SQLException {
 		try(Connection con = ConnectionUtility.getConnection()){
-			String sql = "UPDATE project0.account SET account_balance=? WHERE account_id=? AND client_id=?";
+			String sql = "UPDATE project0.account SET account_balance=?, account_type=? WHERE account_id=? AND client_id=?";
 			PreparedStatement pstmt = con.prepareStatement(sql);
-			pstmt.setDouble(1, accountBalance);
-			pstmt.setInt(2, accountid);
-			pstmt.setInt(3, clientid);
+			pstmt.setDouble(1, account.getAccountBalance());
+			pstmt.setString(2, account.getAccountType().toUpperCase());
+			pstmt.setInt(3, account.getId());
+			pstmt.setInt(4, account.getClientid());
 			int recordUpdate = pstmt.executeUpdate();
 			if(recordUpdate != 1) {
 				throw new SQLException();
 			}
-			return new Account(accountid, accountBalance, clientid);
+			return new Account(account.getId(), account.getAccountBalance(), account.getAccountType().toUpperCase(), account.getClientid());
 		}
 	}
 
@@ -117,5 +137,22 @@ public class AccountDAOImp implements AccountDAO {
 		}
 
 	}
+	
+	@Override
+	public void deleteAllAccount(int clientid) throws SQLException {
+		try(Connection con = ConnectionUtility.getConnection()){
+			String sql = "DELETE FROM account WHERE client_id=?";
+			PreparedStatement pstmt = con.prepareStatement(sql);
+			pstmt.setInt(1, clientid);
+			int recordUpdate = pstmt.executeUpdate();
+			if(recordUpdate != 1) {
+				throw new SQLException();
+			}
+		}
+	}
+
+
+	
+	
 
 }
