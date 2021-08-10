@@ -16,7 +16,7 @@ public class ExceptionController implements Controller {
 		app.exception(AccountNotFoundException.class, (e, ctx) -> {
 			logger.info("ShipNotFoundException occurred from " + ctx.method() + " " + ctx.path() +  ". Message is " + e.getMessage());
 
-			ctx.status(404); // 404 is "Not Found"
+			ctx.status(404); 
 			
 			ExceptionMessageDTO messageDTO = new ExceptionMessageDTO();
 			messageDTO.setMessage(e.getMessage());
@@ -27,7 +27,7 @@ public class ExceptionController implements Controller {
 		app.exception(BadAccountTypeException.class, (e, ctx) -> {
 			logger.info("AccountTypeException occurred from " + ctx.method() + " " + ctx.path() +  ". Message is " + e.getMessage());
 
-			ctx.status(400); // 404 is "Not Found"
+			ctx.status(400); 
 			
 			ExceptionMessageDTO messageDTO = new ExceptionMessageDTO();
 			messageDTO.setMessage(e.getMessage());
@@ -38,7 +38,7 @@ public class ExceptionController implements Controller {
 		app.exception(BadDecimalException.class, (e, ctx) -> {
 			logger.info("BadDecimalException occurred from " + ctx.method() + " " + ctx.path() +  ". Message is " + e.getMessage());
 
-			ctx.status(400); // 404 is "Not Found"
+			ctx.status(400); 
 			
 			ExceptionMessageDTO messageDTO = new ExceptionMessageDTO();
 			messageDTO.setMessage(e.getMessage());
@@ -49,7 +49,7 @@ public class ExceptionController implements Controller {
 		app.exception(BadParameterException.class, (e, ctx) -> {
 			logger.info("BadParameterException occurred from " + ctx.method() + " " + ctx.path() +  ". Message is " + e.getMessage());
 
-			ctx.status(400); // 404 is "Not Found"
+			ctx.status(400);
 			
 			ExceptionMessageDTO messageDTO = new ExceptionMessageDTO();
 			messageDTO.setMessage(e.getMessage());
@@ -60,7 +60,7 @@ public class ExceptionController implements Controller {
 		app.exception(ClientNotFoundException.class, (e, ctx) -> {
 			logger.info("ClientNotFoundException occurred from " + ctx.method() + " " + ctx.path() +  ". Message is " + e.getMessage());
 
-			ctx.status(404); // 404 is "Not Found"
+			ctx.status(404);
 			
 			ExceptionMessageDTO messageDTO = new ExceptionMessageDTO();
 			messageDTO.setMessage(e.getMessage());
@@ -71,7 +71,7 @@ public class ExceptionController implements Controller {
 		app.exception(DatabaseException.class, (e, ctx) -> {
 			logger.info("DatabaseException occurred from " + ctx.method() + " " + ctx.path() +  ". Message is " + e.getMessage());
 
-			ctx.status(500); // 404 is "Not Found"
+			ctx.status(500); 
 			
 			ExceptionMessageDTO messageDTO = new ExceptionMessageDTO();
 			messageDTO.setMessage(e.getMessage());

@@ -17,9 +17,9 @@ public class ConnectionUtility {
 		DriverManager.registerDriver(new Driver());
 
 		
-		String url = "jdbc:mariadb://database-1.cu1xmacuozvv.us-east-2.rds.amazonaws.com:3306/project0";
-		String username = "admin";
-		String password = "somepass";
+		String url = System.getenv("p0_db_url");
+		String username = System.getenv("db_username");
+		String password = System.getenv("db_password");
 
 		Connection connection = DriverManager.getConnection(url, username, password);
 

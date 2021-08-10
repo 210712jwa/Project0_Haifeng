@@ -364,19 +364,6 @@ public class ClientServiceTest {
 		}
 	}
 
-	@Test
-	public void test_delete_client_account_exist() throws SQLException, BadParameterException {
-		try {
-			List<Account> mockAccounts = new ArrayList<>();
-			mockAccounts.add(new Account(20, 1000.32, "CHECKING", 10));
-			when(accountDao.getAllAccount(eq(10))).thenReturn(mockAccounts);
-			clientService.deleteClient("10");
-			fail();
-		} catch (DatabaseException e) {
-			assertEquals("Cannot delete client before delete accounts belong to the client", e.getMessage());
-		}
-
-	}
 
 	@Test(expected = DatabaseException.class)
 	public void test_delete_client_database_exception() throws SQLException, DatabaseException, BadParameterException {

@@ -32,9 +32,15 @@ public class AccountController implements Controller {
 			ctx.json(accounts);
 		} else {
 			List<Account> accounts = accountService.getAllAccount(clientid);
+			if(accounts.size() == 0) {
+				ctx.json("Client dont have any account");
+				ctx.status(404);
+			}else {
 			ctx.status(200);
 			ctx.json(accounts);
-		}
+			}
+		} 
+			
 	};
 
 	private Handler getSpecificAccount = (ctx) -> {

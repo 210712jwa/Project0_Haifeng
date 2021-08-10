@@ -19,9 +19,13 @@ public class Application {
 		
 			app = Javalin.create();
 			mapControllers(new ClientController(), new AccountController(), new ExceptionController());
-			
+			app.before((ctx) -> {
+				logger.info(ctx.method() + " request received to the " + ctx.path() + " endpoint");
+			});
 			app.start(7000); 
 		}
+		
+		
 		
 		public static void mapControllers(Controller... controllers) {
 			for (Controller c : controllers) {

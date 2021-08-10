@@ -144,8 +144,8 @@ public class AccountDAOImp implements AccountDAO {
 			PreparedStatement pstmt = con.prepareStatement(sql);
 			pstmt.setInt(1, clientid);
 			int recordUpdate = pstmt.executeUpdate();
-			if(recordUpdate != 1) {
-				throw new SQLException("fail to delete all account associate with client");
+			if(!(recordUpdate >= 1)) {
+				throw new SQLException("fail to delete all account associate with client " + clientid + " Client may not exist");
 			}
 		}
 	}

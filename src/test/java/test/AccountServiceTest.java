@@ -195,17 +195,7 @@ public class AccountServiceTest {
 			assertEquals("Client not exist", e.getMessage());
 		}
 	}
-	
-	@Test
-	public void get_all_accounts_client_with_no_account() throws DatabaseException, BadParameterException, ClientNotFoundException, SQLException {
-		try {
-			when(clientDao.getClientByid(eq(20))).thenReturn(new Client(20, "Adam", "Apple"));
-			accountService.getAllAccount("20");
-			fail();
-		}catch(AccountNotFoundException e) {
-			assertEquals("Client don't have any account", e.getMessage());
-		}
-	}
+
 	
 	@Test(expected = DatabaseException.class)
 	public void get_all_account_SQLExceptionEncounter() throws DatabaseException, BadParameterException, ClientNotFoundException, AccountNotFoundException, SQLException {
@@ -758,7 +748,10 @@ public class AccountServiceTest {
 	
 	@Test
 	public void delete_all_account_positive() throws SQLException, ClientNotFoundException, DatabaseException, BadParameterException {
+		List<Account> mockAccounts = new ArrayList<>();
+		mockAccounts.add(new Account(20, 1000.23, "CHECKING", 10));
 		when(clientDao.getClientByid(eq(10))).thenReturn(new Client(10, "Bobby", "Banana"));
+		when(accountDao.getAllAccount(eq(10))).thenReturn(mockAccounts);
 		Mockito.doNothing().when(accountDao).deleteAllAccount(anyInt());
 		accountService.deleteAllAccount("10");
 		Mockito.verify(accountDao).deleteAllAccount(10);
@@ -766,7 +759,10 @@ public class AccountServiceTest {
 	
 	@Test(expected = DatabaseException.class)
 	public void delete_all_account_databaseException() throws SQLException, DatabaseException, BadParameterException, ClientNotFoundException, AccountNotFoundException {
+		List<Account> mockAccounts = new ArrayList<>();
+		mockAccounts.add(new Account(20, 1000.23, "CHECKING", 10));
 		when(clientDao.getClientByid(eq(10))).thenReturn(new Client(10, "Bobby", "Banana"));
+		when(accountDao.getAllAccount(eq(10))).thenReturn(mockAccounts);
 		Mockito.doThrow(new SQLException()).when(accountDao).deleteAllAccount(anyInt());
 		accountService.deleteAllAccount("10");
 		Mockito.verify(accountDao).deleteAllAccount(10);
