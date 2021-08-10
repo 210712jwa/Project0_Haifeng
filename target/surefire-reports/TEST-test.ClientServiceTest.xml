@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<testsuite tests="35" failures="0" name="test.ClientServiceTest" time="0.009" errors="0" skipped="0">
+  <properties>
+    <property name="java.runtime.name" value="Java(TM) SE Runtime Environment"/>
+    <property name="sun.boot.library.path" value="/Library/Java/JavaVirtualMachines/jdk1.8.0_291.jdk/Contents/Home/jre/lib"/>
+    <property name="java.vm.version" value="25.291-b10"/>
+    <property name="gopherProxySet" value="false"/>
+    <property name="java.vm.vendor" value="Oracle Corporation"/>
+    <property name="maven.multiModuleProjectDirectory" value="/Users/hai/Desktop/my-springtool-workspace/RESTfulAPI"/>
+    <property name="java.vendor.url" value="http://java.oracle.com/"/>
+    <property name="path.separator" value=":"/>
+    <property name="guice.disable.misplaced.annotation.check" value="true"/>
+    <property name="java.vm.name" value="Java HotSpot(TM) 64-Bit Server VM"/>
+    <property name="file.encoding.pkg" value="sun.io"/>
+    <property name="user.country" value="US"/>
+    <property name="sun.java.launcher" value="SUN_STANDARD"/>
+    <property name="sun.os.patch.level" value="unknown"/>
+    <property name="java.vm.specification.name" value="Java Virtual Machine Specification"/>
+    <property name="user.dir" value="/Users/hai/Desktop/my-springtool-workspace/RESTfulAPI"/>
+    <property name="java.runtime.version" value="1.8.0_291-b10"/>
+    <property name="java.awt.graphicsenv" value="sun.awt.CGraphicsEnvironment"/>
+    <property name="java.endorsed.dirs" value="/Library/Java/JavaVirtualMachines/jdk1.8.0_291.jdk/Contents/Home/jre/lib/endorsed"/>
+    <property name="os.arch" value="x86_64"/>
+    <property name="java.io.tmpdir" value="/var/folders/_8/83ntsvhn4gqc3c10xpg_9cdw0000gn/T/"/>
+    <property name="line.separator" value="
+"/>
+    <property name="java.vm.specification.vendor" value="Oracle Corporation"/>
+    <property name="os.name" value="Mac OS X"/>
+    <property name="classworlds.conf" value="/usr/local/Cellar/maven/3.8.1/libexec/bin/m2.conf"/>
+    <property name="sun.jnu.encoding" value="UTF-8"/>
+    <property name="java.library.path" value="/Users/hai/Library/Java/Extensions:/Library/Java/Extensions:/Network/Library/Java/Extensions:/System/Library/Java/Extensions:/usr/lib/java:."/>
+    <property name="maven.conf" value="/usr/local/Cellar/maven/3.8.1/libexec/conf"/>
+    <property name="java.specification.name" value="Java Platform API Specification"/>
+    <property name="java.class.version" value="52.0"/>
+    <property name="sun.management.compiler" value="HotSpot 64-Bit Tiered Compilers"/>
+    <property name="os.version" value="10.16"/>
+    <property name="library.jansi.path" value="/usr/local/Cellar/maven/3.8.1/libexec/lib/jansi-native"/>
+    <property name="http.nonProxyHosts" value="local|*.local|169.254/16|*.169.254/16"/>
+    <property name="user.home" value="/Users/hai"/>
+    <property name="user.timezone" value="America/Los_Angeles"/>
+    <property name="java.awt.printerjob" value="sun.lwawt.macosx.CPrinterJob"/>
+    <property name="java.specification.version" value="1.8"/>
+    <property name="file.encoding" value="UTF-8"/>
+    <property name="user.name" value="hai"/>
+    <property name="java.class.path" value="/usr/local/Cellar/maven/3.8.1/libexec/boot/plexus-classworlds-2.6.0.jar"/>
+    <property name="java.vm.specification.version" value="1.8"/>
+    <property name="sun.arch.data.model" value="64"/>
+    <property name="java.home" value="/Library/Java/JavaVirtualMachines/jdk1.8.0_291.jdk/Contents/Home/jre"/>
+    <property name="sun.java.command" value="org.codehaus.plexus.classworlds.launcher.Launcher package"/>
+    <property name="java.specification.vendor" value="Oracle Corporation"/>
+    <property name="user.language" value="en"/>
+    <property name="awt.toolkit" value="sun.lwawt.macosx.LWCToolkit"/>
+    <property name="java.vm.info" value="mixed mode"/>
+    <property name="java.version" value="1.8.0_291"/>
+    <property name="java.ext.dirs" value="/Users/hai/Library/Java/Extensions:/Library/Java/JavaVirtualMachines/jdk1.8.0_291.jdk/Contents/Home/jre/lib/ext:/Library/Java/Extensions:/Network/Library/Java/Extensions:/System/Library/Java/Extensions:/usr/lib/java"/>
+    <property name="sun.boot.class.path" value="/Library/Java/JavaVirtualMachines/jdk1.8.0_291.jdk/Contents/Home/jre/lib/resources.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_291.jdk/Contents/Home/jre/lib/rt.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_291.jdk/Contents/Home/jre/lib/sunrsasign.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_291.jdk/Contents/Home/jre/lib/jsse.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_291.jdk/Contents/Home/jre/lib/jce.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_291.jdk/Contents/Home/jre/lib/charsets.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_291.jdk/Contents/Home/jre/lib/jfr.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_291.jdk/Contents/Home/jre/classes"/>
+    <property name="java.vendor" value="Oracle Corporation"/>
+    <property name="maven.home" value="/usr/local/Cellar/maven/3.8.1/libexec"/>
+    <property name="file.separator" value="/"/>
+    <property name="java.vendor.url.bug" value="http://bugreport.sun.com/bugreport/"/>
+    <property name="sun.cpu.endian" value="little"/>
+    <property name="sun.io.unicode.encoding" value="UnicodeBig"/>
+    <property name="socksNonProxyHosts" value="local|*.local|169.254/16|*.169.254/16"/>
+    <property name="ftp.nonProxyHosts" value="local|*.local|169.254/16|*.169.254/16"/>
+    <property name="sun.cpu.isalist" value=""/>
+  </properties>
+  <testcase classname="test.ClientServiceTest" name="test_client_with_account_int_string" time="0"/>
+  <testcase classname="test.ClientServiceTest" name="test_delete_client_id_string" time="0"/>
+  <testcase classname="test.ClientServiceTest" name="test_delete_client_positive" time="0"/>
+  <testcase classname="test.ClientServiceTest" name="test_edit_client_client_id_null" time="0"/>
+  <testcase classname="test.ClientServiceTest" name="test_client_with_account_no_account" time="0"/>
+  <testcase classname="test.ClientServiceTest" name="test_edit_client_positive" time="0"/>
+  <testcase classname="test.ClientServiceTest" name="test_get_client_by_id_postive" time="0"/>
+  <testcase classname="test.ClientServiceTest" name="test_get_all_clients_no_client" time="0"/>
+  <testcase classname="test.ClientServiceTest" name="test_add_client_first_name_null" time="0"/>
+  <testcase classname="test.ClientServiceTest" name="test_get_client_by_id_id_client_not_exist" time="0"/>
+  <testcase classname="test.ClientServiceTest" name="test_get_all_clients_databaseException" time="0"/>
+  <testcase classname="test.ClientServiceTest" name="test_get_client_by_id_id_space" time="0"/>
+  <testcase classname="test.ClientServiceTest" name="test_edit_client_database_exception" time="0.001"/>
+  <testcase classname="test.ClientServiceTest" name="test_add_client_first_name_number" time="0"/>
+  <testcase classname="test.ClientServiceTest" name="test_edit_client_client_id_negative" time="0"/>
+  <testcase classname="test.ClientServiceTest" name="test_edit_client_first_name_non_alpha" time="0.001"/>
+  <testcase classname="test.ClientServiceTest" name="test_add_client_last_name_number" time="0.001"/>
+  <testcase classname="test.ClientServiceTest" name="test_get_client_by_id_id_string" time="0"/>
+  <testcase classname="test.ClientServiceTest" name="test_get_client_by_id_id_negative" time="0"/>
+  <testcase classname="test.ClientServiceTest" name="test_client_with_account_int_null" time="0"/>
+  <testcase classname="test.ClientServiceTest" name="test_client_with_account_positive" time="0.001"/>
+  <testcase classname="test.ClientServiceTest" name="test_client_with_account_negative" time="0"/>
+  <testcase classname="test.ClientServiceTest" name="test_get_client_by_id_negative" time="0.001"/>
+  <testcase classname="test.ClientServiceTest" name="test_delete_client_database_exception" time="0.001"/>
+  <testcase classname="test.ClientServiceTest" name="test_edit_client_last_name_non_alphabetic" time="0"/>
+  <testcase classname="test.ClientServiceTest" name="test_add_client_last_name_null" time="0"/>
+  <testcase classname="test.ClientServiceTest" name="test_get_client_by_id_id_null" time="0.001"/>
+  <testcase classname="test.ClientServiceTest" name="test_edit_client_last_name_null" time="0"/>
+  <testcase classname="test.ClientServiceTest" name="test_delete_client_id_null" time="0"/>
+  <testcase classname="test.ClientServiceTest" name="test_client_with_account_int_negative" time="0.001"/>
+  <testcase classname="test.ClientServiceTest" name="test_add_client_positive" time="0"/>
+  <testcase classname="test.ClientServiceTest" name="test_edit_client_client_id_not_int" time="0.001"/>
+  <testcase classname="test.ClientServiceTest" name="test_add_client_database_exception" time="0"/>
+  <testcase classname="test.ClientServiceTest" name="test_edit_client_first_name_null" time="0"/>
+  <testcase classname="test.ClientServiceTest" name="test_getAllClients_positive" time="0"/>
+</testsuite>
