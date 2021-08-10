@@ -7,6 +7,7 @@ import io.javalin.Javalin;
 import io.javalin.http.Handler;
 import service.ClientService;
 import model.Client;
+import model.ClientWithAccount;
 
 public class ClientController implements Controller {
 
@@ -24,8 +25,8 @@ private ClientService clientService;
 	};
 	
 	private Handler getClientByid = (ctx) -> {
-		String client_id = ctx.pathParam("clientid");
-		Client client = clientService.getClientById(client_id);
+		String clientid = ctx.pathParam(":clientid");
+		Client client = clientService.getClientById(clientid);
 		ctx.status(200);
 		ctx.json(client);
 	};
@@ -38,17 +39,21 @@ private ClientService clientService;
 
 	private Handler editClientByid = (ctx) -> {
 		AddOrEditClientDTO editClient = ctx.bodyAsClass(AddOrEditClientDTO.class);
-		String clientid = ctx.pathParam("clientid");
+		String clientid = ctx.pathParam(":clientid");
 		Client client = clientService.editClient(clientid, editClient);
 		ctx.json(client);
 	};
 	
 	private Handler deleteClientByid = (ctx) -> {
-		String clientid = ctx.pathParam("clientid");
+		String clientid = ctx.pathParam(":clientid");
 		clientService.deleteClient(clientid);
-	
 	};
-	
+
+	private Handler clientWithAccount = (ctx) -> {
+		String clientid = ctx.pathParam(":clientid");
+		List<ClientWithAccount> clientWithAccounts = clientService.clientWithAccount(clientid);
+		ctx.json(clientWithAccounts);	
+	};
 	@Override
 	public void mapEndpoints(Javalin app) {
 		app.get("/client", getAllClients);
@@ -56,6 +61,7 @@ private ClientService clientService;
 		app.post("/client", addClientByid);
 		app.put("/client/:clientid", editClientByid);
 		app.delete("/client/:clientid", deleteClientByid);
+		app.get("/client/:clientid/accounts", clientWithAccount);
 	}
 	
 

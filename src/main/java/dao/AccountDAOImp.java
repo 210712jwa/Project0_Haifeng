@@ -11,7 +11,6 @@ import java.util.List;
 import dto.AddAccountDTO;
 
 import model.Account;
-import model.Client;
 import utility.ConnectionUtility;
 
 public class AccountDAOImp implements AccountDAO {
@@ -27,7 +26,7 @@ public class AccountDAOImp implements AccountDAO {
 			pstmt.setInt(3, account.getClientid());
 			int recordUpdate = pstmt.executeUpdate();
 			if (recordUpdate != 1) {
-				throw new SQLException();
+				throw new SQLException("fail to update account");
 			}
 			ResultSet generatedKey = pstmt.getGeneratedKeys();
 			if (generatedKey.next()) {
@@ -117,7 +116,7 @@ public class AccountDAOImp implements AccountDAO {
 			pstmt.setInt(4, account.getClientid());
 			int recordUpdate = pstmt.executeUpdate();
 			if(recordUpdate != 1) {
-				throw new SQLException();
+				throw new SQLException("fail to edit account");
 			}
 			return new Account(account.getId(), account.getAccountBalance(), account.getAccountType().toUpperCase(), account.getClientid());
 		}
@@ -132,7 +131,7 @@ public class AccountDAOImp implements AccountDAO {
 			pstmt.setInt(2, clientid);
 			int recordUpdate = pstmt.executeUpdate();
 			if(recordUpdate != 1) {
-				throw new SQLException();
+				throw new SQLException("fail to delete account");
 			}
 		}
 
@@ -146,7 +145,7 @@ public class AccountDAOImp implements AccountDAO {
 			pstmt.setInt(1, clientid);
 			int recordUpdate = pstmt.executeUpdate();
 			if(recordUpdate != 1) {
-				throw new SQLException();
+				throw new SQLException("fail to delete all account associate with client");
 			}
 		}
 	}

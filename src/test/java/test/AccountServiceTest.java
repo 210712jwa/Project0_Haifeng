@@ -1,10 +1,8 @@
 package test;
 import static org.junit.Assert.*;
 
-import org.junit.After;
-import org.junit.AfterClass;
 import org.junit.Before;
-import org.junit.BeforeClass;
+
 import org.junit.Test;
 import org.mockito.Mockito;
 
@@ -17,9 +15,6 @@ import static org.mockito.Mockito.when;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-
-import org.junit.Before;
-import org.junit.Test;
 
 import dao.AccountDAO;
 import dao.ClientDAO;
@@ -41,23 +36,11 @@ public class AccountServiceTest {
 	private ClientDAO clientDao;
 	
 
-	@BeforeClass
-	public static void setUpBeforeClass() throws Exception {
-	}
-
-	@AfterClass
-	public static void tearDownAfterClass() throws Exception {
-	}
-
 	@Before
 	public void setUp() throws Exception {
 		this.accountDao = mock(AccountDAO.class);
 		this.clientDao = mock(ClientDAO.class);
 		this.accountService = new AccountService(accountDao, clientDao);
-	}
-
-	@After
-	public void tearDown() throws Exception {
 	}
 
 	@Test
@@ -75,25 +58,15 @@ public class AccountServiceTest {
 	}
 	
 	@Test
-	public void add_account_with_no_decimal() throws DatabaseException, BadParameterException, BadDecimalException, BadAccountTypeException, ClientNotFoundException, SQLException {
+	public void add_account_negative_balance() throws DatabaseException, BadParameterException, BadDecimalException, BadAccountTypeException, ClientNotFoundException {
 		AddAccountDTO dto = new AddAccountDTO();
-		dto.setAccountBalance(1000);
-		dto.setAccountType("CHECKING");
-		when(clientDao.getClientByid(eq(10))).thenReturn(new Client(10, "Bob", "Banna"));;
-		when(accountDao.addAccount(dto)).thenReturn(new Account(10, 1000, "CHECKING", 10));
-		accountService.addAccount("10", dto);
-		assertEquals(1000.00, dto.getAccountBalance(), 0.01);
-	}
-	
-	@Test
-	public void add_account_with_one_digit_after_decimal() throws DatabaseException, BadParameterException, BadDecimalException, BadAccountTypeException, ClientNotFoundException, SQLException {
-		AddAccountDTO dto = new AddAccountDTO();
-		dto.setAccountBalance(1000.1);
-		dto.setAccountType("CHECKING");
-		when(clientDao.getClientByid(eq(10))).thenReturn(new Client(10, "Bob", "Banna"));;
-		when(accountDao.addAccount(dto)).thenReturn(new Account(10, 1000.1, "CHECKING", 10));
-		accountService.addAccount("10", dto);
-		assertEquals(1000.10, dto.getAccountBalance(), 0.01);
+		dto.setAccountBalance(-1000.222);
+		try {
+			accountService.addAccount("10", dto);
+			fail();
+		}catch(BadParameterException e) {
+			assertEquals("cannot have negative balance", e.getMessage());
+		}
 	}
 	
 	@Test
@@ -104,7 +77,7 @@ public class AccountServiceTest {
 			accountService.addAccount("10", dto);
 			fail();
 		}catch(BadDecimalException e) {
-			assertEquals("cannot have more than two decimal for balance", e.getMessage());
+			assertEquals("cannot have more than two decimal place for balance", e.getMessage());
 		}
 	}
 	
@@ -147,8 +120,9 @@ public class AccountServiceTest {
 		}
 	}
 	
+	
 	@Test
-	public void add_account_client_id_not_null() throws DatabaseException, BadDecimalException, BadAccountTypeException, ClientNotFoundException{
+	public void add_account_client_id_null() throws DatabaseException, BadDecimalException, BadAccountTypeException, ClientNotFoundException{
 		AddAccountDTO dto = new AddAccountDTO();
 		dto.setAccountBalance(1000.00);
 		dto.setAccountType("CHECKING");
@@ -157,6 +131,19 @@ public class AccountServiceTest {
 			fail();
 		}catch(BadParameterException e) {
 			assertEquals("is not an acceptable input", e.getMessage());
+		}
+	}
+	
+	@Test
+	public void add_account_client_id_negative() throws DatabaseException, BadDecimalException, BadAccountTypeException, ClientNotFoundException{
+		AddAccountDTO dto = new AddAccountDTO();
+		dto.setAccountBalance(1000.00);
+		dto.setAccountType("CHECKING");
+		try {
+			accountService.addAccount("-1", dto);
+			fail();
+		}catch(BadParameterException e) {
+			assertEquals("Client id can not be negative", e.getMessage());
 		}
 	}
 	
@@ -237,6 +224,7 @@ public class AccountServiceTest {
 		}
 	}
 	
+	
 	@Test
 	public void get_all_account_integer_null() throws DatabaseException, ClientNotFoundException, AccountNotFoundException {
 		try {
@@ -272,31 +260,13 @@ public class AccountServiceTest {
 		accountService.getAccountByBalance("10", "1000.00", "2000.00");
 	}
 	
-	@Test
-	public void get_account_by_client_id_null() throws AccountNotFoundException, ClientNotFoundException, BadDecimalException, DatabaseException {
-		try {
-			accountService.getAccountByBalance("", "1000.00", "2000.32");
-		}catch(BadParameterException e) {
-			assertEquals("Not an acceptable request input", e.getMessage());
-		}
-		
-	}
-	
-	@Test
-	public void get_account_by_client_id_string() throws AccountNotFoundException, ClientNotFoundException, BadDecimalException, DatabaseException {
-		try {
-			accountService.getAccountByBalance("weoadp0", "1000.00", "2000.32");
-		}catch(BadParameterException e) {
-			assertEquals("Not an acceptable request input", e.getMessage());
-		}
-		
-	}
 	
 	@Test
 	public void get_account_by_balance_min_string() throws AccountNotFoundException, ClientNotFoundException, BadDecimalException, DatabaseException, SQLException {
 		try {
 			when(clientDao.getClientByid(eq(10))).thenReturn(new Client(10, "Walmart", "Walgreen"));
 			accountService.getAccountByBalance("10", "wadad", "2000.32");
+			fail();
 		}catch(BadParameterException e) {
 			assertEquals("Not an acceptable request input", e.getMessage());
 		}
@@ -304,32 +274,36 @@ public class AccountServiceTest {
 	}
 	
 	@Test
-	public void get_account_by_balance_min_null() throws AccountNotFoundException, ClientNotFoundException, BadDecimalException, DatabaseException, SQLException {
+	public void get_account_by_balance_min_negative() throws AccountNotFoundException, ClientNotFoundException, BadDecimalException, DatabaseException, SQLException {
 		try {
 			when(clientDao.getClientByid(eq(10))).thenReturn(new Client(10, "Walmart", "Walgreen"));
-			accountService.getAccountByBalance("10", "", "2000.32");
+			accountService.getAccountByBalance("10", "-200", "2000.32");
+			fail();
 		}catch(BadParameterException e) {
-			assertEquals("cannot have null value for balance", e.getMessage());
+			assertEquals("cannot have negative for balance", e.getMessage());
 		}
 		
 	}
 	
 	@Test
-	public void get_account_by_balance_max_null() throws AccountNotFoundException, ClientNotFoundException, BadDecimalException, DatabaseException, SQLException {
+	public void get_account_by_balance_max_negative() throws AccountNotFoundException, ClientNotFoundException, BadDecimalException, DatabaseException, SQLException {
 		try {
 			when(clientDao.getClientByid(eq(10))).thenReturn(new Client(10, "Walmart", "Walgreen"));
-			accountService.getAccountByBalance("10", "1000.00", "");
+			accountService.getAccountByBalance("10", "200", "-2000.32");
+			fail();
 		}catch(BadParameterException e) {
-			assertEquals("cannot have null value for balance", e.getMessage());
+			assertEquals("cannot have negative for balance", e.getMessage());
 		}
 		
 	}
+
 	
 	@Test
 	public void get_account_by_balance_max_string() throws AccountNotFoundException, ClientNotFoundException, BadDecimalException, DatabaseException, SQLException {
 		try {
 			when(clientDao.getClientByid(eq(10))).thenReturn(new Client(10, "Walmart", "Walgreen"));
 			accountService.getAccountByBalance("10", "1000.00", "2ewa");
+			fail();
 		}catch(BadParameterException e) {
 			assertEquals("Not an acceptable request input", e.getMessage());
 		}
@@ -341,6 +315,7 @@ public class AccountServiceTest {
 		try {
 		when(clientDao.getClientByid(eq(10))).thenReturn(new Client(10, "Walmart", "Walgreen"));
 		accountService.getAccountByBalance("10", "1000.00", "2000.00");
+		fail();
 		}catch(AccountNotFoundException e) {
 			assertEquals("Client don't have account with balance between " + "1000.00" + " and "+ "2000.00", e.getMessage());
 		}
@@ -348,39 +323,13 @@ public class AccountServiceTest {
 	
 	
 	@Test
-	public void get_account_by_balance_max_with_no_decimal() throws SQLException, AccountNotFoundException, ClientNotFoundException, BadDecimalException, DatabaseException, BadParameterException {
-		List<Account> mockAccounts = new ArrayList<>();
-		mockAccounts.add(new Account(20, 1500.00, "CHECKING", 10));
-		when(clientDao.getClientByid(eq(10))).thenReturn(new Client(10, "Walmart", "Walgreen"));
-		when(accountDao.getAccountByBalance(10, 1000, 2000.00)).thenReturn(mockAccounts);
-		accountService.getAccountByBalance("10", "1000.00", "2000");
-	}
-	
-	@Test
-	public void get_account_by_balance_min_and_max_with_no_decimal() throws SQLException, AccountNotFoundException, ClientNotFoundException, BadDecimalException, DatabaseException, BadParameterException {
-		List<Account> mockAccounts = new ArrayList<>();
-		mockAccounts.add(new Account(20, 1500.00, "CHECKING", 10));
-		when(clientDao.getClientByid(eq(10))).thenReturn(new Client(10, "Walmart", "Walgreen"));
-		when(accountDao.getAccountByBalance(10, 1000, 2000.00)).thenReturn(mockAccounts);
-		accountService.getAccountByBalance("10", "1000", "2000");
-	}
-	
-	@Test
-	public void get_account_by_balance_min_with_no_decimal() throws SQLException, AccountNotFoundException, ClientNotFoundException, BadDecimalException, DatabaseException, BadParameterException {
-		List<Account> mockAccounts = new ArrayList<>();
-		mockAccounts.add(new Account(20, 1500.00, "CHECKING", 10));
-		when(clientDao.getClientByid(eq(10))).thenReturn(new Client(10, "Walmart", "Walgreen"));
-		when(accountDao.getAccountByBalance(10, 1000, 2000.00)).thenReturn(mockAccounts);
-		accountService.getAccountByBalance("10", "1000", "2000.00");
-	}
-	
-	@Test
 	public void get_account_by_balance_min_bad_decimal_exception() throws AccountNotFoundException, ClientNotFoundException, DatabaseException, BadParameterException, SQLException {
 		try {
 			when(clientDao.getClientByid(eq(10))).thenReturn(new Client(10, "name", "last"));
 			accountService.getAccountByBalance("10", "1000.023", "2000.00");
+			fail();
 		}catch(BadDecimalException e) {
-			assertEquals("cannot have more than two decimal for balance", e.getMessage());
+			assertEquals("cannot have more than two decimal place for balance", e.getMessage());
 		}
 	}
 	
@@ -390,7 +339,7 @@ public class AccountServiceTest {
 			when(clientDao.getClientByid(eq(10))).thenReturn(new Client(10, "name", "last"));
 			accountService.getAccountByBalance("10", "1000.02", "2000.223");
 		}catch(BadDecimalException e) {
-			assertEquals("cannot have more than two decimal for balance", e.getMessage());
+			assertEquals("cannot have more than two decimal place for balance", e.getMessage());
 		}
 	}
 	
@@ -400,7 +349,7 @@ public class AccountServiceTest {
 			when(clientDao.getClientByid(eq(10))).thenReturn(new Client(10, "name", "last"));
 			accountService.getAccountByBalance("10", "1000.0232", "2000.223");
 		}catch(BadDecimalException e) {
-			assertEquals("cannot have more than two decimal for balance", e.getMessage());
+			assertEquals("cannot have more than two decimal place for balance", e.getMessage());
 		}
 	}
 	
@@ -424,9 +373,21 @@ public class AccountServiceTest {
 		}
 	}
 	
+	@Test
+	public void get_account_by_balance_min_greater_than_max() throws AccountNotFoundException, ClientNotFoundException, BadDecimalException, DatabaseException, SQLException {
+		try {
+			when(clientDao.getClientByid(eq(10))).thenReturn(new Client(10, "Walmart", "Walgreen"));
+			accountService.getAccountByBalance("10", "2000", "200");
+			fail();
+		}catch(BadParameterException e) {
+			assertEquals("AmountLessThan cannot greater than amountGreaterThan", e.getMessage());
+		}
+		
+	}
+	
 	
 	@Test
-	public void get_account_by_id_positive() throws SQLException, DatabaseException, BadParameterException, ClientNotFoundException {
+	public void get_account_by_id_positive() throws SQLException, DatabaseException, BadParameterException, ClientNotFoundException, AccountNotFoundException {
 		when(clientDao.getClientByid(eq(10))).thenReturn(new Client(10, "Ben", "Ten"));
 		when(accountDao.getAccountByids(eq(10), eq(20))).thenReturn(new Account(20, 123.23, "SAVING", 10));
 		Account actual = accountService.getAccountByid("10", "20");
@@ -435,9 +396,41 @@ public class AccountServiceTest {
 	}
 	
 
+	@Test
+	public void get_account_by_client_id_null() throws AccountNotFoundException, ClientNotFoundException, BadDecimalException, DatabaseException {
+		try {
+			accountService.getAccountByBalance("", "1000.00", "2000.32");
+			fail();
+		}catch(BadParameterException e) {
+			assertEquals("Not an acceptable request input", e.getMessage());
+		}
+		
+	}
 	
 	@Test
-	public void get_accountByid_client_id_not_int() throws DatabaseException, BadParameterException, ClientNotFoundException {
+	public void get_account_by_client_id_negative() throws AccountNotFoundException, ClientNotFoundException, BadDecimalException, DatabaseException {
+		try {
+			accountService.getAccountByBalance("-1", "1000.00", "2000.32");
+			fail();
+		}catch(BadParameterException e) {
+			assertEquals("Client id can not be negative", e.getMessage());
+		}
+		
+	}
+	
+	@Test
+	public void get_account_by_client_id_string() throws AccountNotFoundException, ClientNotFoundException, BadDecimalException, DatabaseException {
+		try {
+			accountService.getAccountByBalance("weoadp0", "1000.00", "2000.32");
+			fail();
+		}catch(BadParameterException e) {
+			assertEquals("Not an acceptable request input", e.getMessage());
+		}
+		
+	}
+	
+	@Test
+	public void get_account_by_id_client_id_not_int() throws DatabaseException, BadParameterException, ClientNotFoundException, AccountNotFoundException {
 		try {
 			accountService.getAccountByid("wda2", "20");
 			fail();
@@ -447,7 +440,17 @@ public class AccountServiceTest {
 	}
 	
 	@Test
-	public void get_accountByid_client_id_null() throws DatabaseException, BadParameterException, ClientNotFoundException {
+	public void get_account_by_id_client_id_negative() throws DatabaseException, BadParameterException, ClientNotFoundException, AccountNotFoundException {
+		try {
+			accountService.getAccountByid("-1", "20");
+			fail();
+		}catch(BadParameterException e) {
+			assertEquals("Client id can not be negative", e.getMessage());
+		}
+	}
+	
+	@Test
+	public void get_accountByid_client_id_null() throws DatabaseException, BadParameterException, ClientNotFoundException, AccountNotFoundException {
 		try {
 			accountService.getAccountByid("", "20");
 			fail();
@@ -457,7 +460,17 @@ public class AccountServiceTest {
 	}
 	
 	@Test
-	public void get_accountByid_account_id_not_int() throws DatabaseException, BadParameterException, ClientNotFoundException {
+	public void get_accountByid_account_id_negative() throws DatabaseException, BadParameterException, ClientNotFoundException, AccountNotFoundException {
+		try {
+			accountService.getAccountByid("10", "-20");
+			fail();
+		}catch(BadParameterException e) {
+			assertEquals("Account id can not be negative", e.getMessage());
+		}
+	}
+	
+	@Test
+	public void get_accountByid_account_id_not_int() throws DatabaseException, BadParameterException, ClientNotFoundException, AccountNotFoundException {
 		try {
 			accountService.getAccountByid("20", "wwew");
 			fail();
@@ -467,12 +480,23 @@ public class AccountServiceTest {
 	}
 	
 	@Test
-	public void get_accountByid_account_id_null() throws DatabaseException, BadParameterException, ClientNotFoundException {
+	public void get_accountByid_account_id_null() throws DatabaseException, BadParameterException, ClientNotFoundException, AccountNotFoundException {
 		try {
 			accountService.getAccountByid("20", "");
 			fail();
 		}catch(BadParameterException e) {
 			assertEquals("Input for client id or account id s not an valid", e.getMessage());
+		}
+	}
+	
+	@Test
+	public void get_accountByid_null() throws DatabaseException, BadParameterException, ClientNotFoundException, AccountNotFoundException, SQLException {
+		try {
+			when(clientDao.getClientByid(20)).thenReturn(new Client(20, "some", "String"));
+			accountService.getAccountByid("20", "10");
+			fail();
+		}catch(AccountNotFoundException e) {
+			assertEquals("client 20 don't have account with id: 10", e.getMessage());
 		}
 	}
 	
@@ -519,8 +543,22 @@ public class AccountServiceTest {
 		}
 	}
 	
+
 	@Test
-	public void edit_account_client_id_stringl() throws DatabaseException, BadDecimalException, ClientNotFoundException, AccountNotFoundException, BadAccountTypeException, SQLException {
+	public void edit_account_client_id_negative() throws DatabaseException, BadDecimalException, ClientNotFoundException, AccountNotFoundException, BadAccountTypeException, SQLException {
+		try {
+			Account account = new Account();
+			account.setAccountBalance(1000);
+			account.setAccountType("CHECKING");
+			accountService.editAccount("-10", "20", account);
+			fail();
+		}catch(BadParameterException e) {
+			assertEquals("Client id can not be negative", e.getMessage());
+		}
+	}
+	
+	@Test
+	public void edit_account_client_id_string() throws DatabaseException, BadDecimalException, ClientNotFoundException, AccountNotFoundException, BadAccountTypeException, SQLException {
 		try {
 			Account account = new Account();
 			account.setAccountBalance(1000);
@@ -544,6 +582,20 @@ public class AccountServiceTest {
 			fail();
 		}catch(BadParameterException e) {
 			assertEquals("Not a vaild input for client id or account id", e.getMessage());
+		}
+	}
+	
+	@Test
+	public void edit_account_account_id_negative() throws DatabaseException, BadDecimalException, ClientNotFoundException, AccountNotFoundException, BadAccountTypeException, SQLException {
+		try {
+			Account account = new Account();
+			account.setAccountBalance(1000);
+			account.setAccountType("CHECKING");
+			when(clientDao.getClientByid(eq(10))).thenReturn(new Client(10, "client", "some"));
+			accountService.editAccount("10", "-20", account);
+			fail();
+		}catch(BadParameterException e) {
+			assertEquals("Account id can not be negative", e.getMessage());
 		}
 	}
 
@@ -572,7 +624,7 @@ public class AccountServiceTest {
 			accountService.editAccount("10", "20", account);
 			fail();
 		}catch(BadDecimalException e) {
-			assertEquals("cannot have more than two decimal for balance", e.getMessage());
+			assertEquals("cannot have more than two decimal place for balance", e.getMessage());
 		}
 	}
 
@@ -611,6 +663,7 @@ public class AccountServiceTest {
 		when(accountDao.getAccountByids(eq(10), eq(20))).thenReturn(new Account(20, 1000, "CHECKING", 10));
 		Mockito.doNothing().when(accountDao).deleteAccountByids(anyInt(), anyInt());
 		accountService.deleteAccount("10", "20");
+		Mockito.verify(accountDao).deleteAccountByids(10, 20);
 	}
 	
 	@Test
@@ -620,6 +673,16 @@ public class AccountServiceTest {
 			fail();
 		}catch(BadParameterException e) {
 			assertEquals("Not a vaild input for client id or account id", e.getMessage());
+		}
+	}
+	
+	@Test
+	public void delete_account_client_id_negative() throws DatabaseException, ClientNotFoundException, AccountNotFoundException {
+		try {
+			accountService.deleteAccount("-10", "20");
+			fail();
+		}catch(BadParameterException e) {
+			assertEquals("Client id can not be negative", e.getMessage());
 		}
 	}
 	
@@ -654,6 +717,16 @@ public class AccountServiceTest {
 	}
 	
 	@Test
+	public void delete_account_account_id_negative() throws DatabaseException, ClientNotFoundException, AccountNotFoundException {
+		try {
+			accountService.deleteAccount("10", "-20");
+			fail();
+		}catch(BadParameterException e) {
+			assertEquals("Account id can not be negative", e.getMessage());
+		}
+	}
+	
+	@Test
 	public void delete_account_client_not_exist() throws DatabaseException, BadParameterException, AccountNotFoundException {
 		try {
 			accountService.deleteAccount("10", "20");
@@ -680,6 +753,7 @@ public class AccountServiceTest {
 		when(accountDao.getAccountByids(eq(10), eq(20))).thenReturn(new Account(20, 1000, "CHECKING", 10));
 		Mockito.doThrow(new SQLException()).when(accountDao).deleteAccountByids(anyInt(), anyInt());
 		accountService.deleteAccount("10", "20");
+		Mockito.verify(accountDao).deleteAccountByids(10, 20);
 	}
 	
 	@Test
@@ -687,6 +761,7 @@ public class AccountServiceTest {
 		when(clientDao.getClientByid(eq(10))).thenReturn(new Client(10, "Bobby", "Banana"));
 		Mockito.doNothing().when(accountDao).deleteAllAccount(anyInt());
 		accountService.deleteAllAccount("10");
+		Mockito.verify(accountDao).deleteAllAccount(10);
 	}
 	
 	@Test(expected = DatabaseException.class)
@@ -694,14 +769,26 @@ public class AccountServiceTest {
 		when(clientDao.getClientByid(eq(10))).thenReturn(new Client(10, "Bobby", "Banana"));
 		Mockito.doThrow(new SQLException()).when(accountDao).deleteAllAccount(anyInt());
 		accountService.deleteAllAccount("10");
+		Mockito.verify(accountDao).deleteAllAccount(10);
 	}
 	
 	@Test
 	public void delete_all_account_client_id_string() throws SQLException, ClientNotFoundException, DatabaseException {
 		try {
 			accountService.deleteAllAccount("wdawd");
+			fail();
 		}catch(BadParameterException e) {
 			assertEquals("Not a vaild input for client id or account id", e.getMessage());
+		}
+	}
+	
+	@Test
+	public void delete_all_account_client_id_negative() throws SQLException, ClientNotFoundException, DatabaseException {
+		try {
+			accountService.deleteAllAccount("-10");
+			fail();
+		}catch(BadParameterException e) {
+			assertEquals("Client id can not be negative", e.getMessage());
 		}
 	}
 	
@@ -709,6 +796,7 @@ public class AccountServiceTest {
 	public void delete_all_account_client_id_null() throws SQLException, ClientNotFoundException, DatabaseException {
 		try {
 			accountService.deleteAllAccount("");
+			fail();
 		}catch(BadParameterException e) {
 			assertEquals("Not a vaild input for client id or account id", e.getMessage());
 		}

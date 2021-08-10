@@ -1,17 +1,12 @@
 package main;
 
-import java.util.List;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import controller.AccountController;
 import controller.ClientController;
 import controller.Controller;
-import exception.DatabaseException;
+import controller.ExceptionController;
 import io.javalin.Javalin;
-import model.Client;
-import service.ClientService;;
 
 public class Application {
 	private static Javalin app;
@@ -23,7 +18,7 @@ public class Application {
 		public static void main(String[] args) {
 		
 			app = Javalin.create();
-			mapControllers(new ClientController(), new AccountController());
+			mapControllers(new ClientController(), new AccountController(), new ExceptionController());
 			
 			app.start(7000); 
 		}

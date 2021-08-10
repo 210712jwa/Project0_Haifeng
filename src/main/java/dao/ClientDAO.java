@@ -1,7 +1,8 @@
 package dao;
 import java.sql.SQLException;
-import java.util.List;
 
+import java.util.List;
+import model.ClientWithAccount;
 import dto.AddOrEditClientDTO;
 import model.Client;
 
@@ -18,5 +19,6 @@ public interface ClientDAO{
 	
 	public abstract void deleteClientByid(int clientid) throws SQLException;
 	
+	public abstract List<ClientWithAccount> clientWithAccounts(int clientid) throws SQLException;
 	
 }

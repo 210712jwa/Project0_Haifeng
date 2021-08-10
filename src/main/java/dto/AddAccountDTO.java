@@ -4,8 +4,8 @@ import java.util.Objects;
 
 public class AddAccountDTO {
 	double accountBalance;
-	int clientid;
 	String accountType;
+	int clientid;
 	
 	public double getAccountBalance() {
 		return accountBalance;
@@ -13,17 +13,18 @@ public class AddAccountDTO {
 	public void setAccountBalance(double accountBalance) {
 		this.accountBalance = accountBalance;
 	}
-	public int getClientid() {
-		return clientid;
-	}
-	public void setClientid(int clientid) {
-		this.clientid = clientid;
-	}
+
 	public String getAccountType() {
 		return accountType;
 	}
 	public void setAccountType(String accountType) {
 		this.accountType = accountType;
+	}
+	public int getClientid() {
+		return clientid;
+	}
+	public void setClientid(int clientid) {
+		this.clientid = clientid;
 	}
 	@Override
 	public int hashCode() {
@@ -43,9 +44,11 @@ public class AddAccountDTO {
 	}
 	@Override
 	public String toString() {
-		return "AddAccountDTO [accountBalance=" + accountBalance + ", clientid=" + clientid + ", accountType="
-				+ accountType + "]";
+		return "AddAccountDTO [accountBalance=" + accountBalance + ", accountType=" + accountType + ", clientid="
+				+ clientid + "]";
 	}
+
+	
 
 	
 	

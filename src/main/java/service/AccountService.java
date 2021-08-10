@@ -42,17 +42,23 @@ public class AccountService {
 				double temp = Double.parseDouble(balanceString);
 				account.setAccountBalance(temp);
 			}
+			if(accountBalance < 0) {
+				throw new BadParameterException("cannot have negative balance");
+			}
 			accountBalance = account.getAccountBalance();
 			String[] splitter = Double.toString(accountBalance).split("\\.");
 			int decimalLength = splitter[1].length();
 			if(decimalLength > 2) {
-				throw new BadDecimalException("cannot have more than two decimal for balance");		
+				throw new BadDecimalException("cannot have more than two decimal place for balance");		
 			}
 			String type = account.getAccountType();
 			if(!(type.equalsIgnoreCase("checking") ^ type.equalsIgnoreCase("saving"))) {
 				throw new BadAccountTypeException("Not a vaild Account Type");
 			}
 			int cid = Integer.parseInt(clientid);
+			if(cid < 0) {
+				throw new BadParameterException("Client id can not be negative");
+			}
 			if(clientDao.getClientByid(cid) == null) {
 				throw new ClientNotFoundException("Client not exist");
 			}
@@ -60,7 +66,7 @@ public class AccountService {
 			newAccount = accountDao.addAccount(account);
 			return newAccount;
 		} catch(SQLException e) {
-			throw new DatabaseException("Something went wrong with our DAO operations");
+			throw new DatabaseException(e.getMessage());
 		} catch(NumberFormatException e) {
 			throw new BadParameterException(clientid + "is not an acceptable input");
 		}
@@ -71,6 +77,9 @@ public class AccountService {
 		List<Account> accounts;
 		try {
 			int cid = Integer.parseInt(clientid);
+			if(cid < 0) {
+				throw new BadParameterException("Client id can not be negative");
+			}
 			if(clientDao.getClientByid(cid) == null) {
 				throw new ClientNotFoundException("Client not exist");
 			}
@@ -80,7 +89,7 @@ public class AccountService {
 			}
 			return accounts;
 		}catch(SQLException e) {
-			throw new DatabaseException("Something went wrong with our DAO operations");
+			throw new DatabaseException(e.getMessage());
 		}catch(NumberFormatException e) {
 			throw new BadParameterException(clientid + " is not an acceptable input");
 		}
@@ -90,10 +99,10 @@ public class AccountService {
 	public List<Account> getAccountByBalance(String clientid, String min, String max) throws AccountNotFoundException, ClientNotFoundException, BadDecimalException, DatabaseException, BadParameterException {
 		List<Account> accounts;
 		try {
-			if(min == "" || max == "") {
-				throw new BadParameterException("cannot have null value for balance");
-			}
 			int cid = Integer.parseInt(clientid);
+			if(cid < 0) {
+				throw new BadParameterException("Client id can not be negative");
+			}
 			if(clientDao.getClientByid(cid) == null) {
 				throw new ClientNotFoundException("Client not exist");
 			}
@@ -114,34 +123,49 @@ public class AccountService {
 			}
 			int maxDecimalLength = maxSplitter[1].length();
 			if(minDecimalLength > 2 || maxDecimalLength > 2) {
-				throw new BadDecimalException("cannot have more than two decimal for balance");		
+				throw new BadDecimalException("cannot have more than two decimal place for balance");		
 			}
 			double minBalance = Double.parseDouble(min);
 			double maxBalance = Double.parseDouble(max);
+			if(minBalance < 0 || maxBalance < 0) {
+				throw new BadParameterException("cannot have negative for balance");
+			}
+			if(minBalance > maxBalance) {
+				throw new BadParameterException("AmountLessThan cannot greater than amountGreaterThan");
+			}
 			accounts = accountDao.getAccountByBalance(cid, minBalance, maxBalance);
 			if(accounts.size() == 0) {
 				throw new AccountNotFoundException("Client don't have account with balance between " + min + " and "+ max);
 			}
 			return accounts;
 		} catch(SQLException e) {
-			throw new DatabaseException("Something went wrong with our DAO operations");
+			throw new DatabaseException(e.getMessage());
 		}catch(NumberFormatException e) {
 			throw new BadParameterException("Not an acceptable request input");
 		}
 	}
 	
-	public Account getAccountByid(String clientid, String accountid) throws DatabaseException, BadParameterException, ClientNotFoundException {
-		Account account;
+	public Account getAccountByid(String clientid, String accountid) throws DatabaseException, BadParameterException, ClientNotFoundException, AccountNotFoundException {
+		
 		try {
 			int cid = Integer.parseInt(clientid);
+			if(cid < 0) {
+				throw new BadParameterException("Client id can not be negative");
+			}
 			int aid = Integer.parseInt(accountid);
+			if(aid < 0) {
+				throw new BadParameterException("Account id can not be negative");
+			}
 			if(clientDao.getClientByid(cid) == null) {
 				throw new ClientNotFoundException("Client not exist");
 			}
-			account = accountDao.getAccountByids(cid, aid);
+			Account account = accountDao.getAccountByids(cid, aid);
+			if(account == null) {
+				throw new AccountNotFoundException("client " + clientid + " don't have account with id: " + accountid);
+			}
 			return account;
 		}catch(SQLException e) {
-			throw new DatabaseException("Something went wrong with our DAO operations");
+			throw new DatabaseException(e.getMessage());
 		}catch(NumberFormatException e) {
 			throw new BadParameterException("Input for client id or account id s not an valid");
 		}
@@ -157,18 +181,27 @@ public class AccountService {
 					double temp = Double.parseDouble(balanceString);
 					account.setAccountBalance(temp);
 				}
+				if(accountBalance < 0) {
+					throw new BadParameterException("cannot have negative balance");
+				}
 				accountBalance = account.getAccountBalance();
 				String[] splitter = Double.toString(accountBalance).split("\\.");
 				int decimalLength = splitter[1].length();
 				if(decimalLength > 2) {
-					throw new BadDecimalException("cannot have more than two decimal for balance");		
+					throw new BadDecimalException("cannot have more than two decimal place for balance");		
 				}
 				String type = account.getAccountType();
 				if(!(type.equalsIgnoreCase("checking") ^ type.equalsIgnoreCase("saving"))) {
 					throw new BadAccountTypeException("Not a vaild Account Type");
 				}
 				int cid = Integer.parseInt(clientid);
+				if(cid < 0) {
+					throw new BadParameterException("Client id can not be negative");
+				}
 				int aid = Integer.parseInt(accountid);
+				if(aid < 0) {
+					throw new BadParameterException("Account id can not be negative");
+				}
 				if(clientDao.getClientByid(cid) == null) {
 					throw new ClientNotFoundException("Client not exist");
 				}
@@ -178,7 +211,7 @@ public class AccountService {
 				return newaccount;
 			
 		}catch(SQLException e) {
-			throw new DatabaseException("Something went wrong with our DAO operations");
+			throw new DatabaseException(e.getMessage());
 		}catch(NumberFormatException e) {
 			throw new BadParameterException("Not a vaild input for client id or account id");
 		}
@@ -187,7 +220,13 @@ public class AccountService {
 	public void deleteAccount(String clientid, String accountid) throws DatabaseException, BadParameterException, ClientNotFoundException, AccountNotFoundException {
 		try {
 			int cid = Integer.parseInt(clientid);
+			if(cid < 0) {
+				throw new BadParameterException("Client id can not be negative");
+			}
 			int aid = Integer.parseInt(accountid);
+			if(aid < 0) {
+				throw new BadParameterException("Account id can not be negative");
+			}
 			if(clientDao.getClientByid(cid) == null) {
 				throw new ClientNotFoundException("Client not exist");
 			}
@@ -196,7 +235,7 @@ public class AccountService {
 			}
 			accountDao.deleteAccountByids(cid, aid);
 		}catch(SQLException e) {
-			throw new DatabaseException("Something went wrong with our DAO operations");
+			throw new DatabaseException(e.getMessage());
 		}catch(NumberFormatException e) {
 			throw new BadParameterException("Not a vaild input for client id or account id");
 		}
@@ -205,6 +244,9 @@ public class AccountService {
 	public void deleteAllAccount(String clientid) throws SQLException, ClientNotFoundException, DatabaseException, BadParameterException {
 	try {
 		int cid = Integer.parseInt(clientid);
+		if(cid < 0) {
+			throw new BadParameterException("Client id can not be negative");
+		}
 		if(clientDao.getClientByid(cid) == null) {
 			throw new ClientNotFoundException("Client not exist");
 		}
