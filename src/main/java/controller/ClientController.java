@@ -20,7 +20,7 @@ private ClientService clientService;
 	private Handler getAllClients = (ctx) -> {		
 		List<Client> clients = clientService.getAllClients();
 		
-		ctx.status(200); // 200 means OK
+		ctx.status(200);
 		ctx.json(clients);
 	};
 	
