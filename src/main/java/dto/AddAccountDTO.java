@@ -6,10 +6,11 @@ public class AddAccountDTO {
 	double accountBalance;
 	String accountType;
 	int clientid;
-	
+
 	public double getAccountBalance() {
 		return accountBalance;
 	}
+
 	public void setAccountBalance(double accountBalance) {
 		this.accountBalance = accountBalance;
 	}
@@ -17,19 +18,24 @@ public class AddAccountDTO {
 	public String getAccountType() {
 		return accountType;
 	}
+
 	public void setAccountType(String accountType) {
 		this.accountType = accountType;
 	}
+
 	public int getClientid() {
 		return clientid;
 	}
+
 	public void setClientid(int clientid) {
 		this.clientid = clientid;
 	}
+
 	@Override
 	public int hashCode() {
 		return Objects.hash(accountBalance, accountType, clientid);
 	}
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -42,17 +48,11 @@ public class AddAccountDTO {
 		return Double.doubleToLongBits(accountBalance) == Double.doubleToLongBits(other.accountBalance)
 				&& Objects.equals(accountType, other.accountType) && clientid == other.clientid;
 	}
+
 	@Override
 	public String toString() {
 		return "AddAccountDTO [accountBalance=" + accountBalance + ", accountType=" + accountType + ", clientid="
 				+ clientid + "]";
 	}
-
-	
-
-	
-	
-
-	
 
 }

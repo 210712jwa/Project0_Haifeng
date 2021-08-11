@@ -32,15 +32,15 @@ public class AccountController implements Controller {
 			ctx.json(accounts);
 		} else {
 			List<Account> accounts = accountService.getAllAccount(clientid);
-			if(accounts.size() == 0) {
+			if (accounts.size() == 0) {
 				ctx.json("Client dont have any account");
 				ctx.status(404);
-			}else {
-			ctx.status(200);
-			ctx.json(accounts);
+			} else {
+				ctx.status(200);
+				ctx.json(accounts);
 			}
-		} 
-			
+		}
+
 	};
 
 	private Handler getSpecificAccount = (ctx) -> {
@@ -62,13 +62,14 @@ public class AccountController implements Controller {
 		String clientid = ctx.pathParam(":clientid");
 		String accountid = ctx.pathParam(":accountid");
 		accountService.deleteAccount(clientid, accountid);
+		ctx.json("deleted account for client " + clientid + " successfully");
 	};
 
 	private Handler deleteAllAccount = (ctx) -> {
 		String clientid = ctx.pathParam(":clientid");
 		accountService.deleteAllAccount(clientid);
+		ctx.json("deleted all account for client " + clientid + " successfully");
 	};
-	
 
 	@Override
 	public void mapEndpoints(Javalin app) {

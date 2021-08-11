@@ -1,6 +1,6 @@
 package dto;
 
-public class ExceptionMessageDTO{
+public class ExceptionMessageDTO {
 
 	private String message;
 
