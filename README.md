@@ -18,6 +18,8 @@ User: ec2-user
 HostName: 
 http://ec2-18-223-190-254.us-east-2.compute.amazonaws.com:7000/
 
+Port: 22
+
 
 ### Endpoints
 - `POST /client`: Creates a new client
@@ -31,5 +33,5 @@ http://ec2-18-223-190-254.us-east-2.compute.amazonaws.com:7000/
 - `GET /client/{client_id}/account/{account_id}`: Get account with id of Y belonging to client with id of X (if client and account exist AND if account belongs to client)
 - `PUT /client/{client_id}/account/{account_id}`: Update account with id of Y belonging to client with id of X (if client and account exist AND if account belongs to client)
 - `DELETE /client/{client_id}/account/{account_id}`: Delete account with id of Y belonging to client with id of X (if client and account exist AND if account belongs to client)
--`DELETE /client/{client_id}/account/all`: Delete all account
--`GET /client/{client_id}/account/accounts`: Get all account from a client with client name
+-`DELETE /client/{client_id}/accounts/all`: Delete all account
+-`GET /client/{client_id}/account/accounts/all`: Get all account from a client with client name
