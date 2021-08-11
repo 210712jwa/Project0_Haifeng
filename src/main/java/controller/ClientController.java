@@ -61,7 +61,7 @@ private ClientService clientService;
 		app.post("/client", addClientByid);
 		app.put("/client/:clientid", editClientByid);
 		app.delete("/client/:clientid", deleteClientByid);
-		app.get("/client/:clientid/accounts", clientWithAccount);
+		app.get("/client/:clientid/accounts/all", clientWithAccount);
 	}
 	
 

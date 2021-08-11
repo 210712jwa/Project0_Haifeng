@@ -77,7 +77,7 @@ public class AccountController implements Controller {
 		app.post("/client/:clientid/account", addAccount);
 		app.put("/client/:clientid/account/:accountid", editAccount);
 		app.delete("/client/:clientid/account/:accountid", deleteAccount);
-		app.delete("/client/:clientid/account/all", deleteAllAccount);
+		app.delete("/client/:clientid/accounts/all", deleteAllAccount);
 	}
 
 }
