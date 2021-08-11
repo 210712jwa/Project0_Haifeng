@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<testsuite tests="66" failures="0" name="test.AccountServiceTest" time="0.928" errors="0" skipped="0">
+<testsuite tests="66" failures="0" name="test.AccountServiceTest" time="0.695" errors="0" skipped="0">
   <properties>
     <property name="java.runtime.name" value="Java(TM) SE Runtime Environment"/>
     <property name="sun.boot.library.path" value="/Library/Java/JavaVirtualMachines/jdk1.8.0_291.jdk/Contents/Home/jre/lib"/>
@@ -64,70 +64,70 @@
     <property name="ftp.nonProxyHosts" value="local|*.local|169.254/16|*.169.254/16"/>
     <property name="sun.cpu.isalist" value=""/>
   </properties>
-  <testcase classname="test.AccountServiceTest" name="delete_account_client_id_null" time="0.87"/>
-  <testcase classname="test.AccountServiceTest" name="get_account_by_balance_max_negative" time="0.015"/>
-  <testcase classname="test.AccountServiceTest" name="get_account_by_balance_DatabaseException" time="0.003"/>
-  <testcase classname="test.AccountServiceTest" name="get_all_account_client_not_exist" time="0.001"/>
+  <testcase classname="test.AccountServiceTest" name="delete_account_client_id_null" time="0.644"/>
+  <testcase classname="test.AccountServiceTest" name="get_account_by_balance_max_negative" time="0.012"/>
+  <testcase classname="test.AccountServiceTest" name="get_account_by_balance_DatabaseException" time="0.004"/>
+  <testcase classname="test.AccountServiceTest" name="get_all_account_client_not_exist" time="0"/>
   <testcase classname="test.AccountServiceTest" name="delete_account_account_id_null" time="0"/>
-  <testcase classname="test.AccountServiceTest" name="get_all_account_SQLExceptionEncounter" time="0.001"/>
-  <testcase classname="test.AccountServiceTest" name="add_account_bad_balance_decimal_number" time="0.001"/>
-  <testcase classname="test.AccountServiceTest" name="get_account_by_balance_max_string" time="0"/>
-  <testcase classname="test.AccountServiceTest" name="get_account_by_balance_min_negative" time="0.001"/>
+  <testcase classname="test.AccountServiceTest" name="get_all_account_SQLExceptionEncounter" time="0.002"/>
+  <testcase classname="test.AccountServiceTest" name="add_account_bad_balance_decimal_number" time="0"/>
+  <testcase classname="test.AccountServiceTest" name="get_account_by_balance_max_string" time="0.001"/>
+  <testcase classname="test.AccountServiceTest" name="get_account_by_balance_min_negative" time="0"/>
   <testcase classname="test.AccountServiceTest" name="delete_account_client_id_string" time="0"/>
   <testcase classname="test.AccountServiceTest" name="get_account_by_client_id_string" time="0"/>
-  <testcase classname="test.AccountServiceTest" name="get_account_by_balance_min_more_than_one_decimal" time="0.001"/>
-  <testcase classname="test.AccountServiceTest" name="get_account_by_balance_min_max_bad_decimal_exception" time="0"/>
+  <testcase classname="test.AccountServiceTest" name="get_account_by_balance_min_more_than_one_decimal" time="0"/>
+  <testcase classname="test.AccountServiceTest" name="get_account_by_balance_min_max_bad_decimal_exception" time="0.001"/>
   <testcase classname="test.AccountServiceTest" name="get_account_by_balance_max_more_than_one_decimal" time="0"/>
   <testcase classname="test.AccountServiceTest" name="get_accountByid_client_id_null" time="0.001"/>
   <testcase classname="test.AccountServiceTest" name="get_account_by_id_client_id_not_int" time="0.001"/>
   <testcase classname="test.AccountServiceTest" name="add_account_bad_account_type" time="0"/>
-  <testcase classname="test.AccountServiceTest" name="edit_account_account_type_unknown" time="0.001"/>
-  <testcase classname="test.AccountServiceTest" name="delete_account_not_exist" time="0"/>
-  <testcase classname="test.AccountServiceTest" name="edit_account_client_id_string" time="0.001"/>
+  <testcase classname="test.AccountServiceTest" name="edit_account_account_type_unknown" time="0"/>
+  <testcase classname="test.AccountServiceTest" name="delete_account_not_exist" time="0.001"/>
+  <testcase classname="test.AccountServiceTest" name="edit_account_client_id_string" time="0"/>
   <testcase classname="test.AccountServiceTest" name="delete_account_positive" time="0.006"/>
   <testcase classname="test.AccountServiceTest" name="edit_account_account_id_null" time="0"/>
-  <testcase classname="test.AccountServiceTest" name="edit_account_account_type_null" time="0.001"/>
-  <testcase classname="test.AccountServiceTest" name="get_accountByid_account_id_null" time="0"/>
-  <testcase classname="test.AccountServiceTest" name="edit_account_client_id_null" time="0.001"/>
+  <testcase classname="test.AccountServiceTest" name="edit_account_account_type_null" time="0"/>
+  <testcase classname="test.AccountServiceTest" name="get_accountByid_account_id_null" time="0.001"/>
+  <testcase classname="test.AccountServiceTest" name="edit_account_client_id_null" time="0"/>
   <testcase classname="test.AccountServiceTest" name="get_account_by_balance_min_greater_than_max" time="0"/>
   <testcase classname="test.AccountServiceTest" name="delete_all_account_client_id_null" time="0.001"/>
   <testcase classname="test.AccountServiceTest" name="add_account_client_id_null" time="0"/>
   <testcase classname="test.AccountServiceTest" name="get_accountByid_account_id_not_int" time="0"/>
   <testcase classname="test.AccountServiceTest" name="add_account_client_not_exist" time="0.001"/>
-  <testcase classname="test.AccountServiceTest" name="edit_account_account_id_stringl" time="0.001"/>
+  <testcase classname="test.AccountServiceTest" name="edit_account_account_id_stringl" time="0"/>
   <testcase classname="test.AccountServiceTest" name="delete_account_databaseException" time="0.004"/>
-  <testcase classname="test.AccountServiceTest" name="get_account_by_id_positive" time="0"/>
+  <testcase classname="test.AccountServiceTest" name="get_account_by_id_positive" time="0.001"/>
   <testcase classname="test.AccountServiceTest" name="get_all_account_positive" time="0.001"/>
   <testcase classname="test.AccountServiceTest" name="get_account_by_balance_positive" time="0.001"/>
   <testcase classname="test.AccountServiceTest" name="add_account_negative_balance" time="0"/>
-  <testcase classname="test.AccountServiceTest" name="get_account_by_client_id_null" time="0.001"/>
-  <testcase classname="test.AccountServiceTest" name="get_all_account_integer_not_int" time="0"/>
+  <testcase classname="test.AccountServiceTest" name="get_account_by_client_id_null" time="0"/>
+  <testcase classname="test.AccountServiceTest" name="get_all_account_integer_not_int" time="0.001"/>
   <testcase classname="test.AccountServiceTest" name="add_account_client_id_negative" time="0"/>
   <testcase classname="test.AccountServiceTest" name="delete_account_account_id_negative" time="0"/>
   <testcase classname="test.AccountServiceTest" name="get_account_by_balance_with_no_match_account" time="0.001"/>
   <testcase classname="test.AccountServiceTest" name="delete_account_account_id_string" time="0"/>
   <testcase classname="test.AccountServiceTest" name="edit_account_positive" time="0.001"/>
   <testcase classname="test.AccountServiceTest" name="edit_account_account_id_negative" time="0"/>
-  <testcase classname="test.AccountServiceTest" name="get_account_by_balance_min_string" time="0.001"/>
+  <testcase classname="test.AccountServiceTest" name="get_account_by_balance_min_string" time="0"/>
   <testcase classname="test.AccountServiceTest" name="add_account_positive" time="0.001"/>
   <testcase classname="test.AccountServiceTest" name="edit_account_client_id_negative" time="0"/>
-  <testcase classname="test.AccountServiceTest" name="delete_account_client_not_exist" time="0"/>
-  <testcase classname="test.AccountServiceTest" name="get_accountByid_null" time="0.001"/>
-  <testcase classname="test.AccountServiceTest" name="get_all_account_integer_null" time="0"/>
+  <testcase classname="test.AccountServiceTest" name="delete_account_client_not_exist" time="0.001"/>
+  <testcase classname="test.AccountServiceTest" name="get_accountByid_null" time="0"/>
+  <testcase classname="test.AccountServiceTest" name="get_all_account_integer_null" time="0.001"/>
   <testcase classname="test.AccountServiceTest" name="test_addAccount_SQLExceptionEncountered" time="0.001"/>
   <testcase classname="test.AccountServiceTest" name="get_account_by_balance_min_bad_decimal_exception" time="0"/>
   <testcase classname="test.AccountServiceTest" name="get_account_by_balance_max_bad_decimal_exception" time="0.001"/>
-  <testcase classname="test.AccountServiceTest" name="delete_all_account_databaseException" time="0.001"/>
+  <testcase classname="test.AccountServiceTest" name="delete_all_account_databaseException" time="0"/>
   <testcase classname="test.AccountServiceTest" name="edit_account_DatabaseException" time="0.001"/>
   <testcase classname="test.AccountServiceTest" name="delete_account_client_id_negative" time="0"/>
   <testcase classname="test.AccountServiceTest" name="get_accountByid_account_id_negative" time="0"/>
   <testcase classname="test.AccountServiceTest" name="get_account_by_id_client_id_negative" time="0"/>
-  <testcase classname="test.AccountServiceTest" name="get_account_by_client_id_negative" time="0.001"/>
+  <testcase classname="test.AccountServiceTest" name="get_account_by_client_id_negative" time="0"/>
   <testcase classname="test.AccountServiceTest" name="edit_account_balance_decimal_more_than_two" time="0"/>
   <testcase classname="test.AccountServiceTest" name="delete_all_account_positive" time="0.001"/>
-  <testcase classname="test.AccountServiceTest" name="delete_all_account_client_id_negative" time="0.001"/>
-  <testcase classname="test.AccountServiceTest" name="get_accountByid_no_account" time="0"/>
-  <testcase classname="test.AccountServiceTest" name="delete_all_account_client_id_string" time="0.001"/>
-  <testcase classname="test.AccountServiceTest" name="add_account_client_id_not_int" time="0"/>
+  <testcase classname="test.AccountServiceTest" name="delete_all_account_client_id_negative" time="0"/>
+  <testcase classname="test.AccountServiceTest" name="get_accountByid_no_account" time="0.001"/>
+  <testcase classname="test.AccountServiceTest" name="delete_all_account_client_id_string" time="0"/>
+  <testcase classname="test.AccountServiceTest" name="add_account_client_id_not_int" time="0.001"/>
   <testcase classname="test.AccountServiceTest" name="add_account_null_account_type" time="0"/>
 </testsuite>

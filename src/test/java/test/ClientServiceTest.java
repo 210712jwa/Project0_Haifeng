@@ -339,7 +339,11 @@ public class ClientServiceTest {
 	@Test
 	public void test_delete_client_positive() throws SQLException, DatabaseException, BadParameterException {
 		when(clientDao.getClientByid(eq(10))).thenReturn(new Client(10, "Fox", "Say"));
-		Mockito.doNothing().when(accountDao).deleteAccountByids(anyInt(), anyInt());
+		List<Account> mockAccounts = new ArrayList<>();
+		mockAccounts.add(new Account(20, 1000.32, "CHECKING", 10));
+		when(accountDao.getAllAccount(eq(10))).thenReturn(mockAccounts);
+		Mockito.doNothing().when(accountDao).deleteAllAccount(eq(10));
+		Mockito.doNothing().when(clientDao).deleteClientByid(eq(10));
 		clientService.deleteClient("10");
 		Mockito.verify(clientDao).deleteClientByid(10);
 	}

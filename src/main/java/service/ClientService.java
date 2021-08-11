@@ -140,7 +140,10 @@ public class ClientService {
 			if(id < 0) {
 				throw new BadParameterException("Client id cannot be negative");
 			}
-			accountDao.deleteAllAccount(id);
+			
+			if(accountDao.getAllAccount(id).size() > 0){
+				accountDao.deleteAllAccount(id);
+			}	
 			clientDao.deleteClientByid(id);
 		} catch (SQLException e) {
 			throw new DatabaseException(e.getMessage());
