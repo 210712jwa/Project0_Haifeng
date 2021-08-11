@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<testsuite tests="35" failures="0" name="test.ClientServiceTest" time="0.019" errors="0" skipped="0">
+<testsuite tests="35" failures="0" name="test.ClientServiceTest" time="0.027" errors="0" skipped="0">
   <properties>
     <property name="java.runtime.name" value="OpenJDK Runtime Environment"/>
     <property name="java.vm.version" value="16.0.1+0"/>
@@ -60,37 +60,37 @@
   </properties>
   <testcase classname="test.ClientServiceTest" name="test_client_with_account_int_string" time="0"/>
   <testcase classname="test.ClientServiceTest" name="test_delete_client_id_string" time="0"/>
-  <testcase classname="test.ClientServiceTest" name="test_delete_client_positive" time="0.001"/>
+  <testcase classname="test.ClientServiceTest" name="test_delete_client_positive" time="0"/>
   <testcase classname="test.ClientServiceTest" name="test_edit_client_client_id_null" time="0"/>
-  <testcase classname="test.ClientServiceTest" name="test_client_with_account_no_account" time="0"/>
-  <testcase classname="test.ClientServiceTest" name="test_edit_client_positive" time="0"/>
+  <testcase classname="test.ClientServiceTest" name="test_client_with_account_no_account" time="0.001"/>
+  <testcase classname="test.ClientServiceTest" name="test_edit_client_positive" time="0.001"/>
   <testcase classname="test.ClientServiceTest" name="test_get_client_by_id_postive" time="0.001"/>
   <testcase classname="test.ClientServiceTest" name="test_get_all_clients_no_client" time="0.001"/>
   <testcase classname="test.ClientServiceTest" name="test_add_client_first_name_null" time="0"/>
   <testcase classname="test.ClientServiceTest" name="test_get_client_by_id_id_client_not_exist" time="0.001"/>
   <testcase classname="test.ClientServiceTest" name="test_get_all_clients_databaseException" time="0.001"/>
-  <testcase classname="test.ClientServiceTest" name="test_get_client_by_id_id_space" time="0"/>
+  <testcase classname="test.ClientServiceTest" name="test_get_client_by_id_id_space" time="0.001"/>
   <testcase classname="test.ClientServiceTest" name="test_edit_client_database_exception" time="0.001"/>
-  <testcase classname="test.ClientServiceTest" name="test_add_client_first_name_number" time="0"/>
-  <testcase classname="test.ClientServiceTest" name="test_edit_client_client_id_negative" time="0"/>
+  <testcase classname="test.ClientServiceTest" name="test_add_client_first_name_number" time="0.001"/>
+  <testcase classname="test.ClientServiceTest" name="test_edit_client_client_id_negative" time="0.001"/>
   <testcase classname="test.ClientServiceTest" name="test_edit_client_first_name_non_alpha" time="0.001"/>
-  <testcase classname="test.ClientServiceTest" name="test_add_client_last_name_number" time="0"/>
+  <testcase classname="test.ClientServiceTest" name="test_add_client_last_name_number" time="0.001"/>
   <testcase classname="test.ClientServiceTest" name="test_get_client_by_id_id_string" time="0"/>
-  <testcase classname="test.ClientServiceTest" name="test_get_client_by_id_id_negative" time="0.001"/>
-  <testcase classname="test.ClientServiceTest" name="test_client_with_account_int_null" time="0"/>
+  <testcase classname="test.ClientServiceTest" name="test_get_client_by_id_id_negative" time="0"/>
+  <testcase classname="test.ClientServiceTest" name="test_client_with_account_int_null" time="0.001"/>
   <testcase classname="test.ClientServiceTest" name="test_client_with_account_positive" time="0.001"/>
-  <testcase classname="test.ClientServiceTest" name="test_client_with_account_negative" time="0"/>
+  <testcase classname="test.ClientServiceTest" name="test_client_with_account_negative" time="0.002"/>
   <testcase classname="test.ClientServiceTest" name="test_get_client_by_id_negative" time="0.001"/>
-  <testcase classname="test.ClientServiceTest" name="test_delete_client_database_exception" time="0.001"/>
+  <testcase classname="test.ClientServiceTest" name="test_delete_client_database_exception" time="0.002"/>
   <testcase classname="test.ClientServiceTest" name="test_edit_client_last_name_non_alphabetic" time="0.001"/>
   <testcase classname="test.ClientServiceTest" name="test_add_client_last_name_null" time="0"/>
-  <testcase classname="test.ClientServiceTest" name="test_get_client_by_id_id_null" time="0"/>
-  <testcase classname="test.ClientServiceTest" name="test_edit_client_last_name_null" time="0.001"/>
+  <testcase classname="test.ClientServiceTest" name="test_get_client_by_id_id_null" time="0.001"/>
+  <testcase classname="test.ClientServiceTest" name="test_edit_client_last_name_null" time="0"/>
   <testcase classname="test.ClientServiceTest" name="test_delete_client_id_null" time="0"/>
   <testcase classname="test.ClientServiceTest" name="test_client_with_account_int_negative" time="0.001"/>
   <testcase classname="test.ClientServiceTest" name="test_add_client_positive" time="0.001"/>
-  <testcase classname="test.ClientServiceTest" name="test_edit_client_client_id_not_int" time="0.002"/>
-  <testcase classname="test.ClientServiceTest" name="test_add_client_database_exception" time="0"/>
-  <testcase classname="test.ClientServiceTest" name="test_edit_client_first_name_null" time="0"/>
-  <testcase classname="test.ClientServiceTest" name="test_getAllClients_positive" time="0.002"/>
+  <testcase classname="test.ClientServiceTest" name="test_edit_client_client_id_not_int" time="0.001"/>
+  <testcase classname="test.ClientServiceTest" name="test_add_client_database_exception" time="0.001"/>
+  <testcase classname="test.ClientServiceTest" name="test_edit_client_first_name_null" time="0.001"/>
+  <testcase classname="test.ClientServiceTest" name="test_getAllClients_positive" time="0.001"/>
 </testsuite>
