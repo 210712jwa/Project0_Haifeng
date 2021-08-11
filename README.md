@@ -1,5 +1,5 @@
 # Project 0 - RESTful API
-Poject 0 create is for Revature training purpose. It's simple api for bank. The RESTful API application supports two main resources: clients and accounts.
+Poject 0 is for Revature training purpose. It's a simple api for bank. The RESTful API application supports two main resources: clients and accounts.
 
 ### Technologies
 1. Java
