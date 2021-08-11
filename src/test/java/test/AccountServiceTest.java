@@ -226,6 +226,170 @@ public class AccountServiceTest {
 	}
 	
 	@Test
+	public void get_account_Greater_than_positive() throws SQLException, AccountNotFoundException, ClientNotFoundException, BadDecimalException, DatabaseException, BadParameterException {
+		List<Account> mockAccounts = new ArrayList<Account>();
+		mockAccounts.add(new Account(2, 500.00, "CHECKING", 10));
+		mockAccounts.add(new Account(3, 501.23, "SAVING", 10));
+		mockAccounts.add(new Account(4, 1999.56, "CHECKING", 10));
+		mockAccounts.add(new Account(5, 2000.00, "SAVING", 10));
+		when(clientDao.getClientByid(eq(10))).thenReturn(new Client(10, "Bob", "Banna"));
+		when(accountDao.getAccountGreaterThan(10, 2000.00)).thenReturn(mockAccounts);
+		List<Account> actual = accountService.getAccountGreaterThan("10", "2000.00");
+		List<Account> expected = new ArrayList<Account>();
+		expected.add(new Account(2, 500.00, "CHECKING", 10));
+		expected.add(new Account(3, 501.23, "SAVING", 10));
+		expected.add(new Account(4, 1999.56, "CHECKING", 10));
+		expected.add(new Account(5, 2000.00, "SAVING", 10));
+		assertEquals(actual, expected);
+	}
+	
+	@Test (expected = DatabaseException.class)
+	public void get_account_greater_than_DatabaseException() throws SQLException, AccountNotFoundException, ClientNotFoundException, BadDecimalException, DatabaseException, BadParameterException {
+		when(clientDao.getClientByid(eq(10))).thenReturn(new Client(10, "Walter", "Melon"));
+		when(accountDao.getAccountGreaterThan(10, 2000)).thenThrow(SQLException.class);
+		accountService.getAccountGreaterThan("10", "2000.00");
+	}
+	
+	@Test
+	public void get_account_greater_than_max_string() throws AccountNotFoundException, ClientNotFoundException, BadDecimalException, DatabaseException, SQLException {
+		try {
+			when(clientDao.getClientByid(eq(10))).thenReturn(new Client(10, "Walmart", "Walgreen"));
+			accountService.getAccountGreaterThan("10", "wadad");
+			fail();
+		}catch(BadParameterException e) {
+			assertEquals("Not an acceptable request input", e.getMessage());
+		}
+		
+	}
+	
+	@Test
+	public void get_account_Greater_than_client_id_string() throws AccountNotFoundException, ClientNotFoundException, BadDecimalException, DatabaseException, SQLException {
+		try {
+			accountService.getAccountGreaterThan("1was", "2000");
+			fail();
+		}catch(BadParameterException e) {
+			assertEquals("Not an acceptable request input", e.getMessage());
+		}
+		
+	}
+	
+	@Test
+	public void get_account_Greater_than_client_id_null() throws AccountNotFoundException, ClientNotFoundException, BadDecimalException, DatabaseException, SQLException {
+		try {
+			accountService.getAccountGreaterThan("", "2000");
+			fail();
+		}catch(BadParameterException e) {
+			assertEquals("Not an acceptable request input", e.getMessage());
+		}
+		
+	}
+	
+	@Test
+	public void get_account_Greater_than_max_negative() throws AccountNotFoundException, ClientNotFoundException, BadDecimalException, DatabaseException, SQLException {
+		try {
+			when(clientDao.getClientByid(eq(10))).thenReturn(new Client(10, "Walmart", "Walgreen"));
+			accountService.getAccountGreaterThan("10", "-2000");
+			fail();
+		}catch(BadParameterException e) {
+			assertEquals("cannot have negative for balance", e.getMessage());
+		}
+		
+	}
+	
+	@Test
+	public void get_account_Greater_than_client_id_negative() throws AccountNotFoundException, ClientNotFoundException, BadDecimalException, DatabaseException, SQLException {
+		try {
+			accountService.getAccountGreaterThan("-10", "2000");
+			fail();
+		}catch(BadParameterException e) {
+			assertEquals("Client id can not be negative", e.getMessage());
+		}
+		
+	}
+	
+	@Test
+	public void get_account_less_than_positive() throws SQLException, AccountNotFoundException, ClientNotFoundException, BadDecimalException, DatabaseException, BadParameterException {
+		List<Account> mockAccounts = new ArrayList<Account>();
+		mockAccounts.add(new Account(2, 500.00, "CHECKING", 10));
+		mockAccounts.add(new Account(3, 501.23, "SAVING", 10));
+		mockAccounts.add(new Account(4, 1999.56, "CHECKING", 10));
+		mockAccounts.add(new Account(5, 2000.00, "SAVING", 10));
+		when(clientDao.getClientByid(eq(10))).thenReturn(new Client(10, "Bob", "Banna"));
+		when(accountDao.getAccountLessThan(10, 2000.00)).thenReturn(mockAccounts);
+		List<Account> actual = accountService.getAccountLessThan("10", "2000.00");
+		List<Account> expected = new ArrayList<Account>();
+		expected.add(new Account(2, 500.00, "CHECKING", 10));
+		expected.add(new Account(3, 501.23, "SAVING", 10));
+		expected.add(new Account(4, 1999.56, "CHECKING", 10));
+		expected.add(new Account(5, 2000.00, "SAVING", 10));
+		assertEquals(actual, expected);
+	}
+	
+	@Test (expected = DatabaseException.class)
+	public void get_account_less_than_DatabaseException() throws SQLException, AccountNotFoundException, ClientNotFoundException, BadDecimalException, DatabaseException, BadParameterException {
+		when(clientDao.getClientByid(eq(10))).thenReturn(new Client(10, "Walter", "Melon"));
+		when(accountDao.getAccountLessThan(10, 2000)).thenThrow(SQLException.class);
+		accountService.getAccountLessThan("10", "2000.00");
+	}
+	
+	@Test
+	public void get_account_less_than_max_string() throws AccountNotFoundException, ClientNotFoundException, BadDecimalException, DatabaseException, SQLException {
+		try {
+			when(clientDao.getClientByid(eq(10))).thenReturn(new Client(10, "Walmart", "Walgreen"));
+			accountService.getAccountLessThan("10", "wadad");
+			fail();
+		}catch(BadParameterException e) {
+			assertEquals("Not an acceptable request input", e.getMessage());
+		}
+		
+	}
+	
+	@Test
+	public void get_account_less_than_client_id_string() throws AccountNotFoundException, ClientNotFoundException, BadDecimalException, DatabaseException, SQLException {
+		try {
+			accountService.getAccountLessThan("1was", "2000");
+			fail();
+		}catch(BadParameterException e) {
+			assertEquals("Not an acceptable request input", e.getMessage());
+		}
+		
+	}
+	
+	@Test
+	public void get_account_less_than_client_id_null() throws AccountNotFoundException, ClientNotFoundException, BadDecimalException, DatabaseException, SQLException {
+		try {
+			accountService.getAccountLessThan("", "2000");
+			fail();
+		}catch(BadParameterException e) {
+			assertEquals("Not an acceptable request input", e.getMessage());
+		}
+		
+	}
+	
+	@Test
+	public void get_account_less_than_max_negative() throws AccountNotFoundException, ClientNotFoundException, BadDecimalException, DatabaseException, SQLException {
+		try {
+			when(clientDao.getClientByid(eq(10))).thenReturn(new Client(10, "Walmart", "Walgreen"));
+			accountService.getAccountLessThan("10", "-2000");
+			fail();
+		}catch(BadParameterException e) {
+			assertEquals("cannot have negative for balance", e.getMessage());
+		}
+		
+	}
+	
+	@Test
+	public void get_account_less_than_client_id_negative() throws AccountNotFoundException, ClientNotFoundException, BadDecimalException, DatabaseException, SQLException {
+		try {
+			accountService.getAccountLessThan("-10", "2000");
+			fail();
+		}catch(BadParameterException e) {
+			assertEquals("Client id can not be negative", e.getMessage());
+		}
+		
+	}
+	
+	@Test
 	public void get_account_by_balance_positive() throws SQLException, AccountNotFoundException, ClientNotFoundException, BadDecimalException, DatabaseException, BadParameterException {
 		List<Account> mockAccounts = new ArrayList<Account>();
 		mockAccounts.add(new Account(2, 500.00, "CHECKING", 10));
@@ -370,7 +534,7 @@ public class AccountServiceTest {
 			accountService.getAccountByBalance("10", "2000", "200");
 			fail();
 		}catch(BadParameterException e) {
-			assertEquals("AmountLessThan cannot greater than amountGreaterThan", e.getMessage());
+			assertEquals("AmountGreaterThan cannot greater than amountLessThan", e.getMessage());
 		}
 		
 	}

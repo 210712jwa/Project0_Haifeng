@@ -114,6 +114,80 @@ public class AccountService {
 
 	}
 
+	public List<Account> getAccountGreaterThan(String clientid, String min) throws BadParameterException, ClientNotFoundException, BadDecimalException, DatabaseException{
+		List<Account> accounts;
+		try {
+			int cid = Integer.parseInt(clientid);
+
+			// test client id is positive
+			if (cid < 0) {
+				throw new BadParameterException("Client id can not be negative");
+			}
+			if (clientDao.getClientByid(cid) == null) {
+				throw new ClientNotFoundException("Client not exist");
+			}
+
+			// make sure splitter[1] will not return null and throw off the application
+			if (!min.contains(".")) {
+				min = min.concat(".00");
+			}
+			// make sure balance will at most have two decimal place
+			String[] minSplitter = min.split("\\.");
+			if (minSplitter.length > 2) {
+				throw new BadDecimalException("Can not have more than one decimal for amount greater than balance");
+			}
+			double minBalance = Double.parseDouble(min);
+			if (minBalance < 0) {
+				throw new BadParameterException("cannot have negative for balance");
+			}
+			
+			accounts = accountDao.getAccountGreaterThan(cid, minBalance);
+			return accounts;
+		}catch(SQLException e) {
+			throw new DatabaseException(e.getMessage());
+			
+		}catch(NumberFormatException e) {
+			throw new BadParameterException("Not an acceptable request input");
+		}	
+	}
+	
+	public List<Account> getAccountLessThan(String clientid, String max) throws BadParameterException, ClientNotFoundException, BadDecimalException, DatabaseException{
+		List<Account> accounts;
+		try {
+			int cid = Integer.parseInt(clientid);
+
+			// test client id is positive
+			if (cid < 0) {
+				throw new BadParameterException("Client id can not be negative");
+			}
+			if (clientDao.getClientByid(cid) == null) {
+				throw new ClientNotFoundException("Client not exist");
+			}
+
+			// make sure splitter[1] will not return null and throw off the application
+			if (!max.contains(".")) {
+				max = max.concat(".00");
+			}
+			// make sure balance will at most have two decimal place
+			String[] maxSplitter = max.split("\\.");
+			if (maxSplitter.length > 2) {
+				throw new BadDecimalException("Can not have more than one decimal for amount greater than balance");
+			}
+			double maxBalance = Double.parseDouble(max);
+			if (maxBalance < 0) {
+				throw new BadParameterException("cannot have negative for balance");
+			}
+			
+			accounts = accountDao.getAccountLessThan(cid, maxBalance);
+			return accounts;
+		}catch(SQLException e) {
+			throw new DatabaseException(e.getMessage());
+			
+		}catch(NumberFormatException e) {
+			throw new BadParameterException("Not an acceptable request input");
+		}	
+	}
+
 	// get accounts balance that is greater than and less than
 	public List<Account> getAccountByBalance(String clientid, String min, String max) throws AccountNotFoundException,
 			ClientNotFoundException, BadDecimalException, DatabaseException, BadParameterException {
@@ -158,8 +232,10 @@ public class AccountService {
 			if (minBalance < 0 || maxBalance < 0) {
 				throw new BadParameterException("cannot have negative for balance");
 			}
-			if (minBalance > maxBalance) {
-				throw new BadParameterException("AmountLessThan cannot greater than amountGreaterThan");
+			if (maxBalance != 0) {
+				if (minBalance > maxBalance) {
+					throw new BadParameterException("AmountGreaterThan cannot greater than amountLessThan");
+				}
 			}
 			accounts = accountDao.getAccountByBalance(cid, minBalance, maxBalance);
 

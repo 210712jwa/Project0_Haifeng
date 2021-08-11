@@ -14,6 +14,10 @@ public interface AccountDAO {
 	public abstract List<Account> getAllAccount(int clientid) throws SQLException;
 
 	public abstract List<Account> getAccountByBalance(int clientid, double min, double max) throws SQLException;
+	
+	public abstract List<Account> getAccountGreaterThan(int clientid, double min) throws SQLException;
+	
+	public abstract List<Account> getAccountLessThan(int clientid, double max) throws SQLException;
 
 	public abstract Account getAccountByids(int clientid, int accountid) throws SQLException;
 

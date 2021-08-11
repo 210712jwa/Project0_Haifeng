@@ -24,7 +24,17 @@ public class AccountController implements Controller {
 
 	private Handler getAllAccount = (ctx) -> {
 		String clientid = ctx.pathParam(":clientid");
-		if (ctx.queryParam("amountGreaterThan") != null || ctx.queryParam("amountLessThan") != null) {
+		if(ctx.queryParam("amountGreaterThan") != null && ctx.queryParam("amountLessThan") == null) {
+			String min = ctx.queryParam("amountGreaterThan", "0");
+			List<Account> accounts = accountService.getAccountGreaterThan(clientid, min);
+			ctx.status(200);
+			ctx.json(accounts);
+		}else if(ctx.queryParam("amountGreaterThan") == null && ctx.queryParam("amountLessThan") != null) {
+			String min = ctx.queryParam("amountLessThan", "0");
+			List<Account> accounts = accountService.getAccountLessThan(clientid, min);
+			ctx.status(200);
+			ctx.json(accounts);
+		}else if (ctx.queryParam("amountGreaterThan") != null || ctx.queryParam("amountLessThan") != null) {
 			String min = ctx.queryParam("amountGreaterThan", "0");
 			String max = ctx.queryParam("amountLessThan", "0");
 			List<Account> accounts = accountService.getAccountByBalance(clientid, min, max);

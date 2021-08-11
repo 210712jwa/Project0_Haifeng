@@ -66,11 +66,53 @@ public class AccountDAOImp implements AccountDAO {
 	public List<Account> getAccountByBalance(int clientid, double min, double max) throws SQLException {
 		List<Account> accounts = new ArrayList<>();
 		try (Connection con = ConnectionUtility.getConnection()) {
-			String sql = "SELECT * FROM project0.account WHERE client_id=? AND account_balance BETWEEN ? AND ?";
+			String sql = "SELECT * FROM project0.account WHERE client_id=? AND (account_balance BETWEEN ? AND ?)";
 			PreparedStatement pstmt = con.prepareStatement(sql);
 			pstmt.setInt(1, clientid);
 			pstmt.setDouble(2, min);
 			pstmt.setDouble(3, max);
+			ResultSet rs = pstmt.executeQuery();
+			while (rs.next()) {
+				int id = rs.getInt("account_id");
+				double accountBalance = rs.getDouble("account_balance");
+				String accountType = rs.getString("account_type");
+				int cid = rs.getInt("client_id");
+				Account account = new Account(id, accountBalance, accountType, cid);
+				accounts.add(account);
+			}
+		}
+		return accounts;
+	}
+	
+	@Override
+	public List<Account> getAccountGreaterThan(int clientid, double min) throws SQLException {
+		List<Account> accounts = new ArrayList<>();
+		try (Connection con = ConnectionUtility.getConnection()) {
+			String sql = "SELECT * FROM project0.account WHERE client_id=? AND account_balance >= ?";
+			PreparedStatement pstmt = con.prepareStatement(sql);
+			pstmt.setInt(1, clientid);
+			pstmt.setDouble(2, min);
+			ResultSet rs = pstmt.executeQuery();
+			while (rs.next()) {
+				int id = rs.getInt("account_id");
+				double accountBalance = rs.getDouble("account_balance");
+				String accountType = rs.getString("account_type");
+				int cid = rs.getInt("client_id");
+				Account account = new Account(id, accountBalance, accountType, cid);
+				accounts.add(account);
+			}
+		}
+		return accounts;
+	}
+	
+	@Override
+	public List<Account> getAccountLessThan(int clientid, double max) throws SQLException {
+		List<Account> accounts = new ArrayList<>();
+		try (Connection con = ConnectionUtility.getConnection()) {
+			String sql = "SELECT * FROM project0.account WHERE client_id=? AND account_balance <= ?";
+			PreparedStatement pstmt = con.prepareStatement(sql);
+			pstmt.setInt(1, clientid);
+			pstmt.setDouble(2, max);
 			ResultSet rs = pstmt.executeQuery();
 			while (rs.next()) {
 				int id = rs.getInt("account_id");
